@@ -12,6 +12,6 @@ venv/
 .envrc/
 AWS_env/          # If you accidentally created a venv inside the project folder
 #for practice
-# practice/
+practice/
 # Other
 .DS_Store
