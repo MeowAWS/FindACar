@@ -1,0 +1,16 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.swp
+
+# Virtual environment
+venv/
+.env/
+.envrc/
+AWS_env/          # If you accidentally created a venv inside the project folder
+
+# Other
+.DS_Store
