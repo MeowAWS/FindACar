@@ -81,7 +81,7 @@ def extract_ads_link_and_title_from_html():
         listings=data.get("itemListElement", [])
         for j in listings:
             urls.append(j.get("url"))
-            titles.append(j.get("title"))
+            titles.append(j.get("name"))
     return urls, titles
 
 # %%
@@ -101,38 +101,60 @@ def get_ads_html():
         time.sleep(1 + 2 * random.random())#mimic human behaviour add time delay 
 
 # %%
-get_ads_html()# calling a function #save to db
+get_ads_html()# calling a function 
 
 # %%
-#This is the code that is extracting brands name and description from the saved htmls
-def extract_brands_and_name():
+#This is the code that is extracting brands, name, description and price from the saved htmls
+def extract_all_fields():
     brands=[]
     names=[]
     descriptions=[]
+    prices=[]
+
     for i in range(len(urls)):#run loop until total ads
         try:
             with open(f"listings/listing_{i}.html","r",encoding="utf-8") as f:
                 html=f.read()#opened in read format
+
             soup=BeautifulSoup(html,'html.parser')
+
             script_tags=soup.find_all("script", type="application/ld+json")# find the tag like this and store it so that we 
             #can extract the info from this tag as we want 
+
+            # default values so that alignment never breaks
+            brand=None
+            name=None
+            description=None
+            price=None
+
             for tag in script_tags:
                 data=json.loads(tag.string)#loads json in data
+
                 if isinstance(data, dict) and "Product" in data.get("@type", []):# if product exist 
                     brand=data.get("brand",{}).get("name")#get brand name
                     name=data.get("model")#get model name
                     description=data.get("description")#get description 
-                    #basically it finds objects like these and tore their values and append to man var as I did below
-                    brands.append(brand)
-                    names.append(name)
-                    descriptions.append(description)
+                    price=data.get("offers", {}).get("price")#get price
+
+                    #basically it finds objects like these and store their values and append to main var as I did below
                     break
+
+            brands.append(brand)
+            names.append(name)
+            descriptions.append(description)
+            prices.append(price)
+
         except:
-            continue
-    return names,brands,descriptions 
+            brands.append(None)
+            names.append(None)
+            descriptions.append(None)
+            prices.append(None)
+
+    return names, brands, descriptions, prices
+
 
 # %%
-names,brands,descriptions=extract_brands_and_name()#calling a function
+names,brands,descriptions,prices=extract_all_fields()#calling a function
 
 # %%
 #this function get the url of the images so that we can get the image and evaluate on our model
@@ -193,15 +215,17 @@ print(ratings)#check
 
 # %%
 print (image_urls[0])#check
+print(prices[0])#check
 
 # %%
-#title=[....]
-#urls=[....]
+# urls=[....]
+# title=[....]
 # brands = [...]
 # names = [...]
 # descriptions = [...]
 # images = [...]      # list of lists
 # ratings = [...]
+# price=[...]
 #variables name 
 
 # %%
@@ -216,7 +240,8 @@ def save_to_mongodb(total_files):
         "name": names[i],
         "description": descriptions[i],
         "images": image_urls[i],
-        "rating": ratings[i]
+        "rating": ratings[i],
+        "price":prices[i]
         }
         listings.append(listing)
     return listings
@@ -227,5 +252,8 @@ listings=save_to_mongodb(len(urls))#calling a function
 # %%
 #save to db
 collection.insert_many(listings)
+
+# %%
+
 
 
