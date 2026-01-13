@@ -15,3 +15,5 @@ AWS_env/          # If you accidentally created a venv inside the project folder
 practice/
 # Other
 .DS_Store
+
+**/pages/
