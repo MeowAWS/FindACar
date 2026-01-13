@@ -8,12 +8,13 @@ __pycache__/
 
 # Virtual environment
 venv/
-.env/
 .envrc/
 AWS_env/          # If you accidentally created a venv inside the project folder
 #for practice
 practice/
+
 # Other
 .DS_Store
-
+.env
 **/pages/
+**/listings/
