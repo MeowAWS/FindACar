@@ -120,7 +120,7 @@ def write_rating_back_to_db(doc_id, rating, collection):
         try:
             collection.update_one(
                 {"_id": doc_id},
-                {"$set": {"rating": rating, "Good": good_state, "Normal": normal_state, "Bad": bad_state}}
+                {"$set": {"Good": good_state, "Normal": normal_state, "Bad": bad_state}}
             )
             break
         except Exception as e:
