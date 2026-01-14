@@ -97,15 +97,32 @@ def process_documents(
     labels,
     device,
     headers,
-    session
+    session,
+    skip_count=2300
 ):
-    docs = collection.find({"images": {"$exists": True}})
-
-    for doc in tqdm(docs):
+    # Get all document IDs first (fast operation, no timeout)
+    print("Fetching document IDs...")
+    all_ids = [
+        doc["_id"] 
+        for doc in collection.find(
+            {"images": {"$exists": True}}, 
+            {"_id": 1}
+        ).skip(skip_count)
+    ]
+    
+    print(f"Found {len(all_ids)} documents to process, starting from position {skip_count}")
+    
+    # Process each document individually
+    for doc_id in tqdm(all_ids, desc="Processing documents"):
+        # Fetch the document
+        doc = collection.find_one({"_id": doc_id})
+        
+        if not doc:
+            continue
+            
         exterior, interior, engine = [], [], []
-
+        
         for url in doc.get("images", []):
-
             label, conf = classify_image_url(
                 url=url,
                 model=model,
@@ -116,21 +133,19 @@ def process_documents(
                 headers=headers,
                 session=session
             )
-
             if label is None:
                 continue
-
-            # Simple rule mapping
+            
             if "exterior" in label:
                 exterior.append(url)
             elif "interior" in label:
                 interior.append(url)
             elif "engine" in label:
                 engine.append(url)
-
+        
         # Update MongoDB document
         collection.update_one(
-            {"_id": doc["_id"]},
+            {"_id": doc_id},
             {"$set": {
                 "exterior_images": exterior,
                 "interior_images": interior,
@@ -138,11 +153,8 @@ def process_documents(
             }}
         )
 
-
 # %%
-process_documents(collection,model,preprocess,text_tokens,LABELS,device,session,headers)
-
-# %%
+process_documents(collection,model,preprocess,text_tokens,LABELS,device,headers,session)
 
 
 
