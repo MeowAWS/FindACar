@@ -5,11 +5,11 @@ import random
 
 os.makedirs("pages", exist_ok=True)
 
-base_url = "https://www.pakwheels.com/used-cars/suzuki/32"
+base_url = "https://www.pakwheels.com/used-cars/suzuki-lahore/466"
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
     "Accept-Language": "en-US,en;q=0.9",
-    "Referer": "https://www.pakwheels.com/used-cars/suzuki/32"
+    "Referer": "https://www.pakwheels.com/used-cars/suzuki-lahore/466"
 }
 
 for page in range(1, 90):  # first 90 pages
