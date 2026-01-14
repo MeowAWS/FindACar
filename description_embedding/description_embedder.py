@@ -9,12 +9,19 @@ from sentence_transformers import SentenceTransformer
 load_dotenv()
 mongo_url = os.getenv("MONGO_URL")
 
-# MongoDB client
-mdb_client = MongoClient(mongo_url)
-db = mdb_client["test"]
+# MongoDB client with timeout settings
+mdb_client = MongoClient(
+    mongo_url,
+    serverSelectionTimeoutMS=5000,
+    connectTimeoutMS=10000,
+    socketTimeoutMS=30000,
+    maxPoolSize=50,
+    retryWrites=True
+)
+db = mdb_client["Honda_cars"]
 
 # Load sentence-transformers model
-model = SentenceTransformer('all-MiniLM-L6-v2')  # lightweight, fast
+model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # ---------------- HELPER FUNCTIONS ----------------
 def embed(text):
@@ -101,31 +108,53 @@ def get_rating_of_a_car(car_description, good_vector, bad_vector):
 
 def get_car_listings(collection_name):
     collection = db[collection_name]
-    return list(collection.find({}))
+    return list(collection.find({}).batch_size(100))
 
 def write_rating_back_to_db(doc_id, rating, collection):
     good_state = 1 if rating == "Good" else 0
     bad_state = 1 if rating == "Bad" else 0
     normal_state = 1 if rating == "Normal" else 0
 
-    collection.update_one(
-        {"_id": doc_id},
-        {"$set": {"rating": rating, "Good": good_state, "Normal": normal_state, "Bad": bad_state}}
-    )
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            collection.update_one(
+                {"_id": doc_id},
+                {"$set": {"rating": rating, "Good": good_state, "Normal": normal_state, "Bad": bad_state}}
+            )
+            break
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"Retry {attempt + 1} for doc {doc_id}")
+            else:
+                print(f"Failed to update doc {doc_id}: {e}")
 
 # ---------------- MAIN FUNCTION ----------------
 def description_embedder(collection_name):
-    docs = get_car_listings(collection_name)
-
-    # Precompute Good/Bad vectors
-    good_vector = avg([embed(x) for x in good_refs])
-    bad_vector = avg([embed(x) for x in bad_refs])
-
-    for i, car in enumerate(docs):
-        description = car.get("description", "")
-        rating = get_rating_of_a_car(description, good_vector, bad_vector)
-        write_rating_back_to_db(car["_id"], rating, db[collection_name])
-        print(f"Embedded {i+1}/{len(docs)}")
+    try:
+        # Test connection
+        mdb_client.admin.command('ping')
+        print("MongoDB connection successful")
+        
+        docs = get_car_listings(collection_name)
+        
+        # Precompute Good/Bad vectors
+        good_vector = avg([embed(x) for x in good_refs])
+        bad_vector = avg([embed(x) for x in bad_refs])
+        
+        collection = db[collection_name]
+        
+        for i, car in enumerate(docs):
+            description = car.get("description", "")
+            rating = get_rating_of_a_car(description, good_vector, bad_vector)
+            write_rating_back_to_db(car["_id"], rating, collection)
+            print(f"Embedded {i+1}/{len(docs)}")
+            
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        mdb_client.close()
+        print("MongoDB connection closed")
 
 # ---------------- RUN ----------------
-description_embedder("Suzuki_cars")
+description_embedder("listings")
