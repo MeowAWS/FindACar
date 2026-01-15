@@ -5,6 +5,8 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')  # Use non-blocking backend
 
 # Load environment variables
 load_dotenv()
@@ -12,7 +14,7 @@ db_url = os.getenv("DB_URL")
 
 # Connect to MongoDB
 client = MongoClient(db_url)
-db = client["Suzuki_cars"]
+db = client["Honda_cars"]
 collection = db["listings"]
 
 def display_image(url, headers):
@@ -22,12 +24,14 @@ def display_image(url, headers):
         response.raise_for_status()
         img = Image.open(BytesIO(response.content))
         
+        plt.clf()  # Clear previous figure
         plt.figure(figsize=(10, 8))
         plt.imshow(img)
         plt.axis('off')
         plt.title(f"Image URL: {url[:50]}...")
         plt.tight_layout()
-        plt.show()
+        plt.draw()
+        plt.pause(0.1)  # Brief pause to render
         
         return True
     except Exception as e:
@@ -132,8 +136,11 @@ if __name__ == "__main__":
     print("  - Press 'q' to quit and save progress")
     print()
     
+    plt.ion()  # Turn on interactive mode
+    
     review_exterior_images()
     
+    plt.close('all')  # Close all matplotlib windows
     print("\nClosing database connection...")
     client.close()
     print("Done!")
