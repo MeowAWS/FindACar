@@ -18,7 +18,7 @@ mdb_client = MongoClient(
     maxPoolSize=50,
     retryWrites=True
 )
-db = mdb_client["Honda_cars"]
+db = mdb_client["Honda_cars"]   ####################################################################################################
 
 # Load sentence-transformers model
 model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -60,7 +60,9 @@ good_refs = [
     "Perfect running condition, koi mechanical issues nahi",
     "Minor cosmetic wear hai, fully functional",
     "Reliable gari, maintenance records available",
-    "Koi kam nahi hone wala"
+    "Koi kam nahi hone wala",
+    "1st owner",
+    "scratchless body"
 ]
 
 bad_refs = [
@@ -87,22 +89,46 @@ bad_refs = [
     "Engine me noise aur transmission problems",
     "Chassis aur underbody me rust hai",
     "Owner ne multiple breakdowns report kiye",
-    "Unreliable gari, kuch parts missing hain"
+    "Unreliable gari, kuch parts missing hain",
+    "Alignment work needed",
+    "Small patch"
 ]
 
 # ---------------- RATING FUNCTIONS ----------------
-def get_rating_of_a_car(car_description, good_vector, bad_vector):
+def get_rating_of_a_car(car_description, og_numeric_rating, good_vector, bad_vector):
     car_vec = embed(car_description)
 
-    good_score = cos(car_vec, good_vector)
-    bad_score = cos(car_vec, bad_vector)
+    try:
+        og_numeric_rating = float(og_numeric_rating)
+        has_numeric_rating = True
+    except (TypeError, ValueError):
+        has_numeric_rating = False
 
-    if good_score > bad_score + 0.05:
-        rating = "Good"
-    elif bad_score > good_score + 0.05:
-        rating = "Bad"
+    if has_numeric_rating:
+        if og_numeric_rating > 8:
+            rating = "Excellent"
+        elif og_numeric_rating < 2:
+            rating = "Bad"
+        else:
+            good_score = cos(car_vec, good_vector)
+            bad_score = cos(car_vec, bad_vector)
+
+            if good_score > bad_score + 0.05:
+                rating = "Above Average"
+            elif bad_score > good_score + 0.05:
+                rating = "Average"
+            else:
+                rating = "Below Average"
     else:
-        rating = "Normal"
+        good_score = cos(car_vec, good_vector)
+        bad_score = cos(car_vec, bad_vector)
+
+        if good_score > bad_score + 0.05:
+            rating = "Above Average"
+        elif bad_score > good_score + 0.05:
+            rating = "Average"
+        else:
+            rating = "Below Average"
 
     return rating
 
@@ -111,16 +137,18 @@ def get_car_listings(collection_name):
     return list(collection.find({}).batch_size(100))
 
 def write_rating_back_to_db(doc_id, rating, collection):
-    good_state = 1 if rating == "Good" else 0
+    excellent_state = 1 if rating == "Excellent" else 0
+    above_avg_state = 1 if rating == "Above Average" else 0
+    avg_state = 1 if rating == "Average" else 0
+    below_avg_state = 1 if rating == "Below Average" else 0
     bad_state = 1 if rating == "Bad" else 0
-    normal_state = 1 if rating == "Normal" else 0
 
     max_retries = 3
     for attempt in range(max_retries):
         try:
             collection.update_one(
                 {"_id": doc_id},
-                {"$set": {"Good": good_state, "Normal": normal_state, "Bad": bad_state}}
+                {"$set": {"Excellent": excellent_state,"Above Average": above_avg_state, "Average": avg_state, "Below Average": below_avg_state, "Bad": bad_state}}
             )
             break
         except Exception as e:
@@ -139,14 +167,16 @@ def description_embedder(collection_name):
         docs = get_car_listings(collection_name)
         
         # Precompute Good/Bad vectors
-        good_vector = avg([embed(x) for x in good_refs])
-        bad_vector = avg([embed(x) for x in bad_refs])
+        good_vector = np.mean(np.vstack([embed(x) for x in good_refs]), axis=0)
+        bad_vector  = np.mean(np.vstack([embed(x) for x in bad_refs]), axis=0)
+
         
         collection = db[collection_name]
         
         for i, car in enumerate(docs):
             description = car.get("description", "")
-            rating = get_rating_of_a_car(description, good_vector, bad_vector)
+            og_numeric_rating = car.get("rating", "")
+            rating = get_rating_of_a_car(description, og_numeric_rating, good_vector, bad_vector)
             write_rating_back_to_db(car["_id"], rating, collection)
             print(f"Embedded {i+1}/{len(docs)}")
             
