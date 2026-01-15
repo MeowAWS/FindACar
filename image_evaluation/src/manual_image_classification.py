@@ -17,15 +17,19 @@ client = MongoClient(db_url)
 db = client["Honda_cars"]
 collection = db["listings"]
 
-def display_image(url, headers):
+def display_image(url, headers, fig=None):
     """Download and display image from URL"""
     try:
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         img = Image.open(BytesIO(response.content))
         
-        plt.clf()  # Clear previous figure
-        plt.figure(figsize=(10, 8))
+        # Reuse the same figure
+        if fig is None:
+            fig = plt.figure(figsize=(10, 8))
+        else:
+            fig.clf()  # Clear the figure content
+        
         plt.imshow(img)
         plt.axis('off')
         plt.title(f"Image URL: {url[:50]}...")
@@ -33,10 +37,10 @@ def display_image(url, headers):
         plt.draw()
         plt.pause(0.1)  # Brief pause to render
         
-        return True
+        return True, fig
     except Exception as e:
         print(f"[ERROR] Failed to display image: {e}")
-        return False
+        return False, fig
 
 def review_exterior_images():
     """Main function to review and filter exterior images"""
@@ -71,25 +75,27 @@ def review_exterior_images():
         print(f"{'='*60}")
         
         images_to_keep = []
+        fig = None  # Initialize figure variable
         
         for idx, img_url in enumerate(exterior_images):
             print(f"\n[{idx + 1}/{len(exterior_images)}] Displaying image...")
             
             # Display the image
-            if not display_image(img_url, headers):
+            success, fig = display_image(img_url, headers, fig)
+            if not success:
                 print("Skipping due to display error...")
                 continue
             
             # Get user input
             while True:
-                response = input("Is this an EXTERIOR image? (Enter=yes/Space=no/s=skip/q=quit): ").strip()
+                response = input("Is this an EXTERIOR image? (Enter=yes/n=no/s=skip/q=quit): ").strip()
                 
                 if response == '' or response.lower() == 'y':  # Enter key or 'y'
                     images_to_keep.append(img_url)
                     print("✓ Keeping image in exterior")
                     total_reviewed += 1
                     break
-                elif response == ' ' or response.lower() == 'n':  # Space key or 'n'
+                elif response.lower() == 'n':  # 'n' key
                     print("✗ Removing image from exterior")
                     total_reviewed += 1
                     total_removed += 1
@@ -110,7 +116,7 @@ def review_exterior_images():
                     print(f"Total removed: {total_removed}")
                     return
                 else:
-                    print("Invalid input. Please press Enter (yes), Space (no), 's' (skip), or 'q' (quit)")
+                    print("Invalid input. Please press Enter (yes), 'n' (no), 's' (skip), or 'q' (quit)")
         
         # Update the document if changes were made
         if images_to_keep != exterior_images:
@@ -131,7 +137,7 @@ if __name__ == "__main__":
     print("Starting Exterior Image Review Tool...")
     print("Instructions:")
     print("  - Press ENTER to keep the image as exterior")
-    print("  - Press SPACE to remove the image from exterior")
+    print("  - Press 'n' to remove the image from exterior")
     print("  - Press 's' to skip (keep by default)")
     print("  - Press 'q' to quit and save progress")
     print()
