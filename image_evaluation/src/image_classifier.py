@@ -18,22 +18,29 @@ db_url=os.getenv("DB_URL")
 
 # %%
 client = MongoClient(db_url)
-db= client["Honda_cars"]
+db= client["Suzuki_cars"]
 collection = db["listings"]
 
 
 # %%
 def set_clip_function():
     LABELS = [
-    "a clear photo of a car exterior",
-    "a clear photo of a car interior with seats and dashboard",
-    "a clear photo of a car engine bay"
+    "a clear photo of a car exterior (outside view of car)",
+    "a clear photo of a car interior (seats, dashboard, cabin)",
+    "a clear photo of a car engine bay",
+    "a photo of car key or keychain",
+    "a random, unclear, blurry, unrelated or unidentified photo"
 ]
-    CATEGORY_MAP = {
+
+    CATEGORY_FIELDS = {
     0: "exterior_images",
     1: "interior_images",
-    2: "engine_images"
+    2: "engine_images",
+    3: "key_images",
+    4: "unidentified_images"
 }
+
+
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model, preprocess = clip.load("ViT-B/32", device=device)
     text_tokens = clip.tokenize(LABELS).to(device)
@@ -45,10 +52,10 @@ def set_clip_function():
     "Referer": "https://www.pakwheels.com/used-cars/honda/32"
 }
 
-    return LABELS,CATEGORY_MAP,device,model,preprocess,text_tokens,session,headers
+    return LABELS,CATEGORY_FIELDS,device,model,preprocess,text_tokens,session,headers
 
 # %%
-LABELS,CATEGORY_MAP,device,model,preprocess,text_tokens,session,headers=set_clip_function()
+LABELS,CATEGORY_FIELDS,device,model,preprocess,text_tokens,session,headers=set_clip_function()
 
 # %%
 def classify_image_url(
@@ -98,30 +105,25 @@ def process_documents(
     device,
     headers,
     session,
-    skip_count=2300
 ):
-    # Get all document IDs first (fast operation, no timeout)
     print("Fetching document IDs...")
+    
     all_ids = [
         doc["_id"] 
         for doc in collection.find(
             {"images": {"$exists": True}}, 
             {"_id": 1}
-        ).skip(skip_count)
+        )
     ]
-    
-    print(f"Found {len(all_ids)} documents to process, starting from position {skip_count}")
-    
-    # Process each document individually
+    print(f"Found {len(all_ids)} documents to process")
     for doc_id in tqdm(all_ids, desc="Processing documents"):
-        # Fetch the document
         doc = collection.find_one({"_id": doc_id})
-        
         if not doc:
             continue
-            
-        exterior, interior, engine = [], [], []
-        
+
+        # Create empty buckets for all categories
+        categorized = {field: [] for field in CATEGORY_FIELDS.values()}
+
         for url in doc.get("images", []):
             label, conf = classify_image_url(
                 url=url,
@@ -133,28 +135,32 @@ def process_documents(
                 headers=headers,
                 session=session
             )
+
             if label is None:
                 continue
-            
-            if "exterior" in label:
-                exterior.append(url)
-            elif "interior" in label:
-                interior.append(url)
-            elif "engine" in label:
-                engine.append(url)
-        
-        # Update MongoDB document
+
+            # Find index of predicted label
+            idx = labels.index(label)
+
+            # Get correct Mongo field
+            mongo_field = CATEGORY_FIELDS[idx]
+
+            categorized[mongo_field].append(url)
+
+        # Save everything in the same document
         collection.update_one(
             {"_id": doc_id},
-            {"$set": {
-                "exterior_images": exterior,
-                "interior_images": interior,
-                "engine_images": engine
-            }}
+            {"$set": categorized}
         )
+
+    print("✅ Processing completed.")
+
 
 # %%
 process_documents(collection,model,preprocess,text_tokens,LABELS,device,headers,session)
+
+
+# %%
 
 
 
