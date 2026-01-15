@@ -18,7 +18,7 @@ mdb_client = MongoClient(
     maxPoolSize=50,
     retryWrites=True
 )
-db = mdb_client["Honda_cars"]   ####################################################################################################
+db = mdb_client["Suzuki_cars"]   ####################################################################################################
 
 # Load sentence-transformers model
 model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -36,63 +36,84 @@ def cos(a, b):
 
 # ---------------- VARIABLES ----------------
 good_refs = [
-    "well maintained car with low mileage and no accidents",
-    "clean car with full service history",
-    "excellent condition vehicle",
-    "car is in pristine condition, no dents or scratches",
-    "smooth engine performance and recently serviced",
-    "interior and exterior are very clean and intact",
-    "all original parts and properly maintained",
-    "low usage, tires and brakes in excellent condition",
-    "owner is careful and car drives like new",
-    "perfect running condition with no mechanical issues",
-    "minor cosmetic wear only, fully functional",
-    "reliable car with detailed maintenance records",
-    "Gari achi condition me hai, low mileage aur koi accident nahi",
-    "Saaf suthri gari, full service history ke sath",
-    "Perfect condition me gari",
-    "Gari bilkul nayi jaisi, koi dents ya scratches nahi",
-    "Engine smooth hai, recently serviced",
-    "Interior aur exterior bilkul saaf aur intact hai",
-    "Saare original parts hain aur properly maintain hui hai",
-    "Kam use hui, tires aur brakes perfect condition me",
-    "Owner careful hai aur gari bilkul nayi jaisi chalti hai",
-    "Perfect running condition, koi mechanical issues nahi",
-    "Minor cosmetic wear hai, fully functional",
-    "Reliable gari, maintenance records available",
-    "Koi kam nahi hone wala",
-    "1st owner",
-    "scratchless body"
+    # English
+    "excellent condition",
+    "well maintained",
+    "genuine car",
+    "non accidental",
+    "original paint",
+    "bumper to bumper genuine",
+    "engine in perfect condition",
+    "smooth drive",
+    "just buy and drive",
+    "family used car",
+    "first owner",
+    "low mileage",
+    "documents complete",
+    "original file and smart card",
+    "soundless engine",
+    "clean interior",
+    "neat condition",
+
+    # Pakistani English / Urdu mix
+    "total genuine",
+    "100% genuine",
+    "scratchless",
+    "no touching",
+    "no work required",
+    "koi kaam nahi",
+    "engine 100%",
+    "suspension smooth",
+    "Alhamdulillah",
+    "bilkul theek",
+    "new condition",
+    "lush condition",
+    "water drop engine",
+    "biometric on the spot",
+    "book file complete"
 ]
 
 bad_refs = [
-    "accident damaged car",
-    "engine problems and rust",
-    "poor condition vehicle with issues",
-    "car has major dents and paint peeling",
-    "frequent mechanical failures and service needed",
-    "interior and exterior badly worn out",
-    "brakes and suspension need replacement",
-    "high mileage and poorly maintained",
-    "significant engine noise and transmission issues",
-    "rust on chassis and underbody",
-    "owner reports multiple breakdowns",
-    "unreliable car with missing parts",
-    "Accident damaged gari",
-    "Engine me problems aur rust hai",
-    "Poor condition, kai issues hain",
-    "Gari me bohot dents aur paint peeling hai",
-    "Mechanical failures frequent, service required",
-    "Interior aur exterior badly worn out",
-    "Brakes aur suspension replace karne ki zarurat hai",
-    "High mileage aur poorly maintained",
-    "Engine me noise aur transmission problems",
-    "Chassis aur underbody me rust hai",
-    "Owner ne multiple breakdowns report kiye",
-    "Unreliable gari, kuch parts missing hain",
-    "Alignment work needed",
-    "Small patch"
+    # English
+    "accident car",
+    "accident damaged",
+    "engine problem",
+    "gear problem",
+    "suspension issue",
+    "body work required",
+    "paint work",
+    "dent and scratch",
+    "major repair needed",
+    "mechanical issue",
+    "poor condition",
+    "rust",
+    "chassis damage",
+
+    # Pakistani phrasing
+    "touching",
+    "shower",
+    "patch",
+    "half paint",
+    "1.5 piece",
+    "alignment work needed",
+    "engine kharab",
+    "gear kharab",
+    "accident hai",
+    "kaam hai",
+    "work required",
+    "meter reversed",
+    "document issue",
+    "file missing"
 ]
+
+def check_description(car_description, og_numeric_rating, good_vector, bad_vector):
+    if not car_description or not car_description.strip():
+        has_description = 0
+        rating = "Null"
+    else:
+        rating = get_rating_of_a_car(car_description, og_numeric_rating, good_vector, bad_vector)
+        has_description = 1
+    return has_description, rating
 
 # ---------------- RATING FUNCTIONS ----------------
 def get_rating_of_a_car(car_description, og_numeric_rating, good_vector, bad_vector):
@@ -148,7 +169,7 @@ def write_rating_back_to_db(doc_id, rating, collection):
         try:
             collection.update_one(
                 {"_id": doc_id},
-                {"$set": {"Excellent": excellent_state,"Above Average": above_avg_state, "Average": avg_state, "Below Average": below_avg_state, "Bad": bad_state}}
+                {"$set": {"has_description": 1,"Excellent": excellent_state,"Above Average": above_avg_state, "Average": avg_state, "Below Average": below_avg_state, "Bad": bad_state}}
             )
             break
         except Exception as e:
@@ -156,6 +177,23 @@ def write_rating_back_to_db(doc_id, rating, collection):
                 print(f"Retry {attempt + 1} for doc {doc_id}")
             else:
                 print(f"Failed to update doc {doc_id}: {e}")
+
+def write_null_rating_back_to_db(doc_id, collection):
+
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            collection.update_one(
+                {"_id": doc_id},
+                {"$set": {"has_description": 0,"Excellent": None,"Above Average": None, "Average": None, "Below Average": None, "Bad": None}}
+            )
+            break
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"Retry {attempt + 1} for doc {doc_id}")
+            else:
+                print(f"Failed to update doc {doc_id}: {e}")
+
 
 # ---------------- MAIN FUNCTION ----------------
 def description_embedder(collection_name):
@@ -176,8 +214,11 @@ def description_embedder(collection_name):
         for i, car in enumerate(docs):
             description = car.get("description", "")
             og_numeric_rating = car.get("rating", "")
-            rating = get_rating_of_a_car(description, og_numeric_rating, good_vector, bad_vector)
-            write_rating_back_to_db(car["_id"], rating, collection)
+            has_description, rating = check_description(description, og_numeric_rating, good_vector, bad_vector)
+            if has_description:
+                write_rating_back_to_db(car["_id"], rating, collection)
+            else:
+                write_null_rating_back_to_db(car["_id"], collection)
             print(f"Embedded {i+1}/{len(docs)}")
             
     except Exception as e:
