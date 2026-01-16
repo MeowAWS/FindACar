@@ -14,9 +14,6 @@ db_url = os.getenv("DB_URL")
 
 # Connect to MongoDB
 client = MongoClient(db_url)
-
-db = client["Honda_cars"]
-
 db = client["Toyota_cars"]
 collection = db["listings"]
 
@@ -104,24 +101,18 @@ def review_exterior_images():
                 elif response.lower() == 'q':
                     print("\n[QUIT] Saving progress and exiting...")
                     if images_to_keep != exterior_images:
-                        collection.update_one({"_id": doc_id}, {"$set": {"exterior_images": images_to_keep, "x": True}})
-                    else:
-                        collection.update_one({"_id": doc_id}, {"$set": {"x": True}})
+                        collection.update_one({"_id": doc_id}, {"$set": {"exterior_images": images_to_keep}})
                     print(f"Total reviewed: {total_reviewed}")
                     print(f"Total removed: {total_removed}")
                     return
                 else:
                     print("Invalid input. Press Enter (yes), 'n' (no), 's' (skip), or 'q' (quit).")
         
-        # Update document with changes and add x: true
+        # Update document if changes were made
         if images_to_keep != exterior_images:
-            collection.update_one({"_id": doc_id}, {"$set": {"exterior_images": images_to_keep, "x": True}})
+            collection.update_one({"_id": doc_id}, {"$set": {"exterior_images": images_to_keep}})
             print(f"\n✓ Updated document {doc_id}")
             print(f"  Kept: {len(images_to_keep)}/{len(exterior_images)} images")
-        else:
-            # Even if no changes to images, still add x: true
-            collection.update_one({"_id": doc_id}, {"$set": {"x": True}})
-            print(f"\n✓ Marked document {doc_id} as reviewed (x: true)")
     
     print(f"\n{'='*60}")
     print("REVIEW COMPLETE!")
