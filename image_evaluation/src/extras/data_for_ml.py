@@ -7,12 +7,12 @@ load_dotenv()
 
 # MongoDB connection settings
 MONGO_URI = os.getenv("DB_URL")
-DATABASE_NAME = ("Honda_cars")
+DATABASE_NAME = ("Suzuki_cars")
 COLLECTION_NAME = ("listings")
 
 def add_data_for_ml(document):
     """
-    Create data-for-ml property with 20 columns, padding with -1 where needed.
+    Create data-for-ml property with 15 columns, padding with -1 where needed.
     """
     if 'damage_labels' not in document:
         return None
@@ -29,12 +29,12 @@ def add_data_for_ml(document):
         ml_values = values.copy()
         
         # Pad with -1 to reach 20 columns
-        padding_needed = 20 - current_length
+        padding_needed = 15 - current_length
         if padding_needed > 0:
             ml_values.extend([-1] * padding_needed)
         
         # If somehow there are more than 20, truncate (shouldn't happen based on your description)
-        data_for_ml[damage_type] = ml_values[:20]
+        data_for_ml[damage_type] = ml_values[:15]
     
     return data_for_ml
 
