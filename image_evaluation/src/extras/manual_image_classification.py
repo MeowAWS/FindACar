@@ -14,7 +14,7 @@ db_url = os.getenv("DB_URL")
 
 # Connect to MongoDB
 client = MongoClient(db_url)
-db = client["Suzuki_cars"]
+db = client["Honda_cars"]
 collection = db["listings"]
 
 def display_image(url, headers, fig):
