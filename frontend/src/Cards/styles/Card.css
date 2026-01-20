@@ -1,0 +1,10 @@
+#card {
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+    border-radius: 0.5rem;
+}
+
+.mybutton {
+    margin: 0.8rem;
+}
