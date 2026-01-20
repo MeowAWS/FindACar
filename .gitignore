@@ -21,3 +21,9 @@ practice/
 **/listings/
 
 web_scraping/src/Suzuki/urls.txt
+
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/.env
+/frontend/.env.*
