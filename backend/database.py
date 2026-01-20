@@ -1,17 +1,22 @@
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
-
+load_dotenv()
+db_url=os.getenv("DB_URL")
+client=MongoClient(db_url)
+DATABASES = {
+    "toyota": "Toyota_cars_2",
+    "honda": "Honda_cars_2",
+    "suzuki": "Suzuki_cars_2"
+    }
 #calling function to setup db
-def setup_db(brand):
-    load_dotenv()
-    db_url=os.getenv("DB_URL")
-    client=MongoClient(db_url)
-    if brand=="Toyota":
-        db_name=client["Toyota_cars_2"]
-    elif brand=="Honda":
-        db_name=client["Honda_cars_2"]
-    else:
-        db_name=client["Suzuki_cars_2"]
-    collection=db_name["listings"]
-    return collection,db_name
+def setup_db(brand: str):
+    brand = brand.lower()
+
+    if brand not in DATABASES:
+        raise ValueError("Invalid brand")
+
+    db = client[DATABASES[brand]]
+    collection = db["listings"]
+
+    return collection
