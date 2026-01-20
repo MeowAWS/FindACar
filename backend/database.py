@@ -19,4 +19,4 @@ def setup_db(brand: str):
     db = client[DATABASES[brand]]
     collection = db["listings"]
 
-    return collection
+    return collection,db 
