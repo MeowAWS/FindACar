@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
-import Card from "./Cards/react/Card"
+import Displayer from './Cards/react/Displayer'
+import Input from "./Input/react/Input"
 
 function App() {
   const [count, setCount] = useState(0)
@@ -8,7 +9,8 @@ function App() {
   return (
     <>
       <div>
-          <Card />
+          <Input />
+          <Displayer />
       </div>
     </>
   )

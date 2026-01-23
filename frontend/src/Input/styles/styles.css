@@ -1,0 +1,32 @@
+#input {
+    display: flex;
+    flex-direction: row;
+    background-color:rgb(221, 222, 223);
+    border-radius: 0.3rem;
+    margin-bottom: 3rem;
+}
+
+.inputSet {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+}
+
+.inputBoxes {
+    padding: 0.6rem;
+    padding-left: 1rem;
+    padding-right: 3rem;
+    border-radius: 0.3rem;
+    border-style: none;
+    background-color: rgb(140, 140, 150);
+}
+
+label {
+    font-size: 0.9rem;
+    align-self: flex-start;
+    margin-left: 0.7rem;
+}
+
+#search {
+    background-color: rgb(49, 52, 140);
+}
