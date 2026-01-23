@@ -24,6 +24,6 @@ async def search(       #asyn run code block by block, a single waiter can cater
 ):
     results = pechay_say_ADS_lao(brand, name, price, condition)
     return {"results": results}
-
-
-
+@app.get("/brands")
+async def get_brands():
+    print("krna hay yay kam auto complete subha gpt say pooch kr and hehehe")
