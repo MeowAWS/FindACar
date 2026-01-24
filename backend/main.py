@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from schema import pechay_say_ADS_lao
+from schema import pechay_say_ADS_lao,get_all_the_brands,get_all_names
 
 app = FastAPI()
 
@@ -13,6 +13,9 @@ app.add_middleware(         #dadi amma jo baat manwati hein
     allow_methods=["*"],            #miss karao
     allow_headers=["*"],            #inspect > network > ctrl + r > headers (jis sy pakwheels scrap kia)
 )
+@app.get("/")
+def home():
+    return {"message": "API is running"}
 
 
 @app.get("/search")
@@ -24,6 +27,12 @@ async def search(       #asyn run code block by block, a single waiter can cater
 ):
     results = pechay_say_ADS_lao(brand, name, price, condition)
     return {"results": results}
+
+
 @app.get("/brands")
 async def get_brands():
-    print("krna hay yay kam auto complete subha gpt say pooch kr and hehehe")
+    return{"brands":get_all_the_brands()}
+
+@app.get("/names")
+async def get_names(brand:str):
+    return{"Car_name":get_all_names(brand)}

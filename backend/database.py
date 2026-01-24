@@ -9,3 +9,11 @@ def setup_db():
     db = client["auto_shop"]
     collection = db["cars"]
     return collection, db
+def setup_db_1():
+    db = client["auto_shop"]
+    collection = db["brands"]
+    return collection, db
+def setup_db_2():
+    db = client["auto_shop"]
+    brands_col,models_col= db["brands"],db["models"]
+    return brands_col,models_col,db

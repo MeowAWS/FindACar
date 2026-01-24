@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from bson import ObjectId
-from database import setup_db
+from database import setup_db,setup_db_1,setup_db_2
 
 def search_records(brand, name, price, condition_label):
     collection, db = setup_db()
@@ -85,6 +85,27 @@ def pechay_say_ADS_lao(brand,name,price,condition_label):
     return valid_ads
 
 def get_all_the_brands():
-    print("krtay kam")
-def get_all_names():
-    print("yay bhi krna")
+    
+    collection,db=setup_db_1()
+    brands = collection.find({}, {"_id": 0, "name": 1})
+    return [b["name"] for b in brands]
+
+def get_all_names(brand):
+    #set db and collection 
+    brand_col,model_col,db=setup_db_2()
+    #find brand document
+    brand_doc=brand_col.find_one(
+        {"name":{"$regex":f"^{brand}$","$options":"i"}}
+    )
+    #if not find just return empty array
+    if not brand_doc:
+        return[]
+    
+    brand_id=brand_doc["_id"]
+    #finds all the names for the given brand
+    models=model_col.find(
+        {"brand":brand_id},
+        {"_id":0,"name":1}
+    ).sort("name",1)
+    
+    return[m["name"] for m in models]
