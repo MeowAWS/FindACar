@@ -3,27 +3,59 @@ from bs4 import BeautifulSoup
 from bson import ObjectId
 from database import setup_db
 
-def search_records(brand,name,price,condition_label):
-    collection,db=setup_db(brand)
-    query={
-        "name":{"$regex":name,"$options":"i"},#partial match wsay zaroort nai lkin for the safer side
-        "condition_label":condition_label,#match condition label
-        "price":{"$lte":int (price)}#price from 0 to price
-    }
-    #run query and get all the results
-    results=collection.find(query)
-    #format into json
-    output=[]
-    for doc in results:
-        output.append({
-            "url":doc.get("URL"),
-            "brand":doc.get("brand"),
-            "name":doc.get("name"),
-            "price":doc.get("price"),
-            "image":doc.get("images",[None])[0],#first image
-            "condition":doc.get("condition_label")
-        })
-    return output
+def search_records(brand, name, price, condition_label):
+    collection, db = setup_db()
+# this is the list of steps mongodb run one by one 
+    pipeline = [
+        # Join brands
+        {
+            "$lookup": {
+                "from": "brands", #see the collection brand in the db auto_search
+                "localField": "brand",#field in current collection (cars collection)
+                "foreignField": "_id",# fields in the brand collection foreign key 
+                "as": "brand_info"#output field name
+            }
+        },
+        {"$unwind": "$brand_info"},
+
+        # Join models
+        {
+            "$lookup": {
+                "from": "models",
+                "localField": "name",   # name now contains model ObjectId
+                "foreignField": "_id",
+                "as": "model_info"
+            }
+        },
+        {"$unwind": "$model_info"},
+
+        # Apply filters
+        {
+            "$match": {
+                "brand_info.name": {"$regex": brand, "$options": "i"},
+                "model_info.name": {"$regex": name, "$options": "i"},
+                "condition_label": condition_label,
+                "price": {"$lte": int(price)}
+            }
+        },
+
+        # Final shape for frontend
+        {
+            "$project": {
+                "_id": 0,
+                "url": "$URL",
+                "brand": "$brand_info.name",
+                "name": "$model_info.name",
+                "price": 1,
+                "condition": "$condition_label",
+                "image": { "$arrayElemAt": ["$images", 0] }
+            }
+        }
+    ]
+
+    results = collection.aggregate(pipeline)
+    return list(results)
+
 
 
 def pechay_say_ADS_lao(brand,name,price,condition_label):
@@ -51,3 +83,8 @@ def pechay_say_ADS_lao(brand,name,price,condition_label):
         except Exception:
             continue
     return valid_ads
+
+def get_all_the_brands():
+    print("krtay kam")
+def get_all_names():
+    print("yay bhi krna")
