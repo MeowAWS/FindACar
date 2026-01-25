@@ -39,3 +39,4 @@ async def get_names(brand:str):
 
 
 print ("kam kr lo bhai plzzzzzzzzzzzzzzzzzzzzzzzzzz")
+print ("tension na lo subi bhai")
