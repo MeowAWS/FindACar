@@ -36,3 +36,6 @@ async def get_brands():
 @app.get("/names")
 async def get_names(brand:str):
     return{"Car_name":get_all_names(brand)}
+
+
+print ("kam kr lo bhai plzzzzzzzzzzzzzzzzzzzzzzzzzz")
