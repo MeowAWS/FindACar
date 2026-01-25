@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function Model({ brand }) {
+function Model({ brand, onModelChange }) {
     const [modelList, setModelList] = useState([]);
     const [filteredModels, setFilteredModels] = useState([]);
     const [inputValue, setInputValue] = useState("");
@@ -27,6 +27,7 @@ function Model({ brand }) {
     const handleInputChange = (e) => {
         const val = e.target.value;
         setInputValue(val);
+        onModelChange(val); //sends value to parent
         if (val.length > 0) {
             const filtered = modelList.filter(model => 
                 model.toLowerCase().includes(val.toLowerCase())
