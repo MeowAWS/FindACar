@@ -2,7 +2,7 @@ import "../styles/styles.css"
 import {useState, useEffect} from 'react';
 
 
-function Brand(){
+function Brand({onBrandChange}){
 
     const API_URL = import.meta.env.VITE_API_URL;
     const [brandList, setBrandList] = useState([]);
@@ -23,6 +23,10 @@ function Brand(){
         fetchData();
     }, []);
 
+    const handleChange = (e) => {
+        onBrandChange(e.target.value);
+    };
+
     // Add this inside your Brand component
 useEffect(() => {
     console.log("Updated brandList:", brandList);
@@ -30,10 +34,11 @@ useEffect(() => {
 
     return(
         <div className="inputSet" id="brandDiv">
-            <label for="brand">Select Brand</label>
+            <label htmlFor="brand">Select Brand</label>
     
-            <select className="inputBoxes" id="brand" name="brand">
+            <select className="inputBoxes" id="brand" name="brand" onChange={handleChange} defaultValue="">
                 {/* Dynamically render options */}
+                <option value="" disabled>Select a brand</option>
                 {brandList.map((brand, index) => (
                     <option key={index} value={brand.toLowerCase()}>
                         {brand}

@@ -30,3 +30,40 @@ label {
 #search {
     background-color: rgb(49, 52, 140);
 }
+
+/* Container needs relative to anchor the dropdown */
+#modelDiv {
+    position: relative;
+}
+
+.customDropdown {
+    position: absolute;
+    top: 100%; /* Sits right under the input */
+    left: 0.7rem; /* Matches your label margin */
+    right: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: rgb(140, 140, 150); /* Matches your inputBoxes color */
+    border-radius: 0 0 0.3rem 0.3rem;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    width: calc(100% - 2.7rem); /* Adjust based on your input padding/margin */
+}
+
+.customDropdown li {
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.customDropdown li:hover {
+    background-color: rgb(49, 52, 140); /* Matches your search button color */
+}
+.customDropdown li.activeOption {
+    background-color: rgb(49, 52, 140); /* Match your search button color */
+    outline: none;
+}
