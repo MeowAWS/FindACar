@@ -1,15 +1,44 @@
 import "../styles/styles.css"
+import {useState, useEffect} from 'react';
+
 
 function Brand(){
+
+    const API_URL = import.meta.env.VITE_API_URL;
+    const [brandList, setBrandList] = useState([]);
+    
+    const fetchData = async () => {
+        try{
+            const response = await fetch(API_URL + 'brands');
+            if(!response.ok) throw new Error('Network Response was not ok');
+            const result = await response.json();
+            setBrandList(result.brands);
+        }
+        catch(error){
+            console.log("Fetch Error: ", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    // Add this inside your Brand component
+useEffect(() => {
+    console.log("Updated brandList:", brandList);
+}, [brandList]); // This runs every time carList changes
+
     return(
         <div className="inputSet" id="brandDiv">
             <label for="brand">Select Brand</label>
     
             <select className="inputBoxes" id="brand" name="brand">
-                <option value="" disabled selected>Brand name</option>
-                <option value="suzuki">Suzuki</option>
-                <option value="honda">Honda</option>
-                <option value="toyota">Toyota</option>
+                {/* Dynamically render options */}
+                {brandList.map((brand, index) => (
+                    <option key={index} value={brand.toLowerCase()}>
+                        {brand}
+                    </option>
+                ))}
             </select>
         </div>
     )
