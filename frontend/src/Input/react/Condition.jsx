@@ -10,8 +10,12 @@ function Condition({onConditionChange}){
     
             <select className="inputBoxes" id="condition" name="condition" onChange={handleChange}>
                 <option value="" disabled selected>Condition</option>
-                <option value="new">New</option>
-                <option value="used">Used</option>
+                <option value="A+">A+</option>
+                <option value="A">A</option>
+                <option value="B+">B+</option>
+                <option value="B">B</option>
+                <option value="C+">C+</option>
+                <option value="C">C</option>
             </select>
         </div>
     )
