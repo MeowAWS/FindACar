@@ -1,15 +1,22 @@
-function Brand({ brands, onBrandChange, selectedBrand }) {
+import { useEffect, useState } from "react";
+
+function Brand({ brands, selectedBrand, onBrandChange }) {
+    const handleChange = (e) => {
+        onBrandChange(e.target.value);
+    };
+
     return (
-        <div className="brand-dropdown">
-            <label htmlFor="brand-select">Brand:</label>
+        <div className="inputSet" id="brandDiv">
+            <label htmlFor="brand">Select Brand</label>
             <select
-                id="brand-select"
+                className="inputBoxes"
+                id="brand"
                 value={selectedBrand}
-                onChange={(e) => onBrandChange(e.target.value)}
+                onChange={handleChange}
             >
-                <option value="">Select Brand</option>
-                {brands.map((brand, idx) => (
-                    <option key={idx} value={brand}>
+                <option value="">Select a brand</option>
+                {brands.map((brand, index) => (
+                    <option key={index} value={brand}>
                         {brand}
                     </option>
                 ))}

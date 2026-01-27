@@ -1,23 +1,10 @@
 function Search({ allSelected, onSearchClick }) {
-    const handleClick = () => {
-        if (allSelected && onSearchClick) {
-            onSearchClick();
-        }
-    };
-
     return (
-        <div className="inputSet">
-            <button 
-                id="search"
-                className="inputBoxes"
-                disabled={!allSelected}
-                onClick={handleClick} // Calls our local handler
-                style={{
-                    color: "white",
-                    fontWeight: "bold",
-                    opacity: allSelected ? 1 : 0.4,
-                    cursor: allSelected ? "pointer" : "not-allowed"
-                }}
+        <div className="inputSet" id="searchDiv">
+            <button
+                className="searchButton"
+                disabled={!allSelected}  // only clickable if all inputs are selected
+                onClick={onSearchClick}
             >
                 Search
             </button>
@@ -25,4 +12,4 @@ function Search({ allSelected, onSearchClick }) {
     );
 }
 
-export default Search
+export default Search;

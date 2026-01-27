@@ -17,9 +17,9 @@ function App() {
   useEffect(() => {
     // Check if all variables have a value (are not "")
     if (selectedBrand && selectedModel && selectedRange && selectedCondition) {
-        setAllSelected(true);
+      setAllSelected(true);
     } else {
-        setAllSelected(false);
+      setAllSelected(false);
     }
   }, [selectedBrand, selectedModel, selectedRange, selectedCondition]);
 
@@ -35,25 +35,25 @@ function App() {
     <>
       <div>
 
-          <Input 
-            setSelectedBrand={setSelectedBrand} 
-            setSelectedModel={setSelectedModel} 
-            setSelectedRange={setSelectedRange} 
-            setSelectedCondition={setSelectedCondition} 
-            allSelected={allSelected} 
-            selectedBrand={selectedBrand}
-            onSearchClick={handleSearchTrigger}
-          />
+        <Input
+          setSelectedBrand={setSelectedBrand}
+          selectedBrand={selectedBrand}
+          setSelectedModel={setSelectedModel}
+          setSelectedRange={setSelectedRange}
+          setSelectedCondition={setSelectedCondition}
+          allSelected={allSelected}
+          onSearchClick={handleSearchTrigger}
+        />
 
+        <Displayer
+          brand={selectedBrand}
+          model={selectedModel}
+          price={selectedRange}
+          condition={selectedCondition}
+          searchPressed={searchPressed}
+          turnSearchOff={turnSearchOff}
+        />
 
-          <Displayer 
-            brand={selectedBrand} 
-            model={selectedModel} 
-            price={selectedRange} 
-            condition={selectedCondition} 
-            searchPressed={searchPressed}
-            turnSearchOff={turnSearchOff}
-          />
       </div>
     </>
   )

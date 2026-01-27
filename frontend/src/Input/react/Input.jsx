@@ -10,6 +10,7 @@ import Search from "./Search";
 function Input({
     setSelectedBrand,
     selectedBrand,
+    selectedModel,
     setSelectedModel,
     setSelectedRange,
     setSelectedCondition,
@@ -51,13 +52,15 @@ function Input({
                 onBrandChange={setSelectedBrand}
                 selectedBrand={selectedBrand}
             />
-
-            {/* Model dropdown */}
             <Model
                 models={models}
-                onModelChange={setSelectedModel}
-                selectedModel={setSelectedModel}
+                selectedModel={selectedModel}  // current value
+                onModelChange={setSelectedModel} // setter function
             />
+            <Condition
+                onConditionChange={setSelectedCondition}
+            />
+
 
             {/* Range slider or input */}
             <Range onRangeChange={setSelectedRange} />
