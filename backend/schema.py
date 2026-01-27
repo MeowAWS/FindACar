@@ -58,6 +58,8 @@ def search_records(brand, name, price, condition_label):
 
 
 
+
+#validates if the ad. still exist or now 
 def pechay_say_ADS_lao(brand,name,price,condition_label):
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",

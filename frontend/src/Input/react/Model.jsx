@@ -21,7 +21,7 @@ function Model({ brand, onModelChange }) {
             }
         };
         fetchData();
-        setInputValue(""); 
+        setInputValue("");
     }, [brand, API_URL]);
 
     const handleInputChange = (e) => {
@@ -29,7 +29,7 @@ function Model({ brand, onModelChange }) {
         setInputValue(val);
         onModelChange(val); //sends value to parent
         if (val.length > 0) {
-            const filtered = modelList.filter(model => 
+            const filtered = modelList.filter(model =>
                 model.toLowerCase().includes(val.toLowerCase())
             );
             setFilteredModels(filtered);
@@ -59,15 +59,17 @@ function Model({ brand, onModelChange }) {
         setInputValue(model);
         setShowDropdown(false);
         setFocusedIndex(-1);
+        onModelChange(model); // send selected model to parent
     };
+
 
     return (
         <div className="inputSet" id="modelDiv" onKeyDown={handleKeyDown}>
             <label htmlFor="model">Select Model</label>
-            <input 
-                className="inputBoxes" 
-                type="text" 
-                placeholder="Type to search..." 
+            <input
+                className="inputBoxes"
+                type="text"
+                placeholder="Type to search..."
                 value={inputValue}
                 onChange={handleInputChange}
                 autoComplete="off"
@@ -76,8 +78,8 @@ function Model({ brand, onModelChange }) {
             {showDropdown && filteredModels.length > 0 && (
                 <ul className="customDropdown">
                     {filteredModels.map((model, index) => (
-                        <li 
-                            key={index} 
+                        <li
+                            key={index}
                             onClick={() => selectModel(model)}
                             className={index === focusedIndex ? "activeOption" : ""}
                         >

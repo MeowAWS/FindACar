@@ -1,16 +1,15 @@
-import Image from "./Image"
-import Info from "./Info"
-import Button from "./Button"
-import "../styles/Card.css"
-
-function Card(){
+function Card({ car }) {
     return (
-        <div id="card">
-            <Image url="https://cache2.pakwheels.com/ad_pictures/1190/honda-vezel-hybrid-z-honda-sensing-2019-119065443.webp"/> 
-            <Info carName="Bonda Vezel" price="2300000" condition="A+"/> 
-            <Button url="https://www.pakwheels.com/used-cars/honda-vezel-2019-for-sale-in-lahore-9918177"/>
+        <div className="card">
+            <img src={car.image} alt={`${car.brand} ${car.name}`} className="card-image" />
+            <div className="card-info">
+                <h3>{car.brand} {car.name}</h3>
+                <p>Price: {car.price}</p>
+                <p>Condition: {car.condition}</p>
+                <a href={car.url} target="_blank" rel="noopener noreferrer">View Ad</a>
+            </div>
         </div>
-    )
+    );
 }
 
-export default Card
+export default Card;

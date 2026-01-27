@@ -1,22 +1,75 @@
-import Brand from "./Brand"
-import Model from "./Model"
-import Range from "./Range"
-import Condition from "./Condition"
-import Search from "./Search"
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 
-function Input({ setSelectedBrand, selectedBrand, setSelectedModel, setSelectedRange, setSelectedCondition, allSelected, onSearchClick }){
-   
+// These are your individual components
+import Brand from "./Brand";
+import Model from "./Model";
+import Range from "./Range";
+import Condition from "./Condition";
+import Search from "./Search";
 
-    return(
+function Input({
+    setSelectedBrand,
+    selectedBrand,
+    setSelectedModel,
+    setSelectedRange,
+    setSelectedCondition,
+    allSelected,
+    onSearchClick,
+}) {
+
+    const [brands, setBrands] = useState([]);
+    const [models, setModels] = useState([]);
+
+    // Fetch all brands from backend on mount
+    useEffect(() => {
+        fetch("http://localhost:8000/brands")
+            .then(res => res.json())
+            .then(data => setBrands(data.brands))
+            .catch(err => console.error(err));
+    }, []);
+
+    // Fetch models whenever brand changes
+    useEffect(() => {
+        if (!selectedBrand) {
+            setModels([]); // reset models if no brand
+            setSelectedModel(""); // reset selected model
+            return;
+        }
+
+        fetch(`http://localhost:8000/names?brand=${selectedBrand}`)
+            .then(res => res.json())
+            .then(data => setModels(data.Car_name))
+            .catch(err => console.error(err));
+    }, [selectedBrand, setSelectedModel]);
+
+    return (
         <div id="input">
-            <Brand onBrandChange={setSelectedBrand} />
-            <Model brand={selectedBrand} onModelChange={setSelectedModel} />
+
+            {/* Brand dropdown */}
+            <Brand
+                brands={brands}
+                onBrandChange={setSelectedBrand}
+                selectedBrand={selectedBrand}
+            />
+
+            {/* Model dropdown */}
+            <Model
+                models={models}
+                onModelChange={setSelectedModel}
+                selectedModel={setSelectedModel}
+            />
+
+            {/* Range slider or input */}
             <Range onRangeChange={setSelectedRange} />
+
+            {/* Condition dropdown */}
             <Condition onConditionChange={setSelectedCondition} />
-            <Search allSelected={allSelected} onSearchClick={onSearchClick}/>
+
+            {/* Search button */}
+            <Search allSelected={allSelected} onSearchClick={onSearchClick} />
+
         </div>
-    )
+    );
 }
 
 export default Input;

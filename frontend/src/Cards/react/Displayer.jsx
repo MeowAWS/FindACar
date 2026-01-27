@@ -1,18 +1,49 @@
+import { useEffect, useState } from "react";
 import Card from "./Card";
-import "../styles/Displayer.css"
+import "../styles/Displayer.css";
 
-function Displayer({brand, model, price, condition, searchPressed, turnSearchOff}) {
+function Displayer({ brand, model, price, condition, searchPressed, turnSearchOff }) {
 
-    
-    //WHEN YOU ARE DONE, JUST CALL turnSearchOff()
+    const [cars, setCars] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    // If search hasn't been pressed, don't show anything
-    if (!searchPressed) {
-        return null; 
-    }
+    useEffect(() => {
+        if (!searchPressed) return;
+
+        setLoading(true);
+
+        // Correct GET request to FastAPI
+        fetch(`http://localhost:8000/search?brand=${brand}&name=${model}&price=${price}&condition=${condition}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setCars(data.results); // Use .results because FastAPI returns { results: [...] }
+                setLoading(false);
+                turnSearchOff(); // Reset search state
+            })
+            .catch((err) => {
+                console.error(err);
+                setLoading(false);
+                turnSearchOff();
+            });
+
+    }, [searchPressed]);
+
+    if (!searchPressed && cars.length === 0) return null;
 
     return (
-        <Card />
+        <div className="displayer">
+            {loading && <p>Loading cars...</p>}
+
+            {!loading && cars.length === 0 && (
+                <p>No cars found</p>
+            )}
+
+            {!loading &&
+                cars.map((car, index) => (
+                    <Card key={index} car={car} />
+                ))
+            }
+        </div>
     );
 }
 
