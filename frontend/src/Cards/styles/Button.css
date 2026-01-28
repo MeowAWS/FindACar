@@ -12,7 +12,7 @@
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
-    margin-top: 0.75rem;
+    margin-top: var(--space-md);
 }
 
 .card-button:hover {
@@ -68,8 +68,8 @@
 /* Button Group */
 .card-button-group {
     display: flex;
-    gap: 0.75rem;
-    margin-top: 1rem;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
     flex-wrap: wrap;
 }
 

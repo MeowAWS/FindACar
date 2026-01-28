@@ -1,9 +1,17 @@
 /* Cards Displayer Container - NO WHITE BACKGROUND */
+:root {
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+}
+
 .displayer-container {
     max-width: 1400px;
     margin: 0 auto;
-    margin-left: 75px;
     padding: 2rem;
+    padding-left: calc(2rem + 60px); /* controlled, responsive */
     background: transparent;
     /* Fully transparent */
 }
@@ -13,18 +21,18 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     /* Exactly 3 columns */
-    gap: 2rem;
-    padding: 1rem 0;
+    gap: var(--space-lg);
+    padding: var(--space-sm) 0;
 }
 
 /* Loading State - Pretty Circular Loader */
 .loading {
     text-align: center;
-    padding: 5rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    padding: var(--space-xl) var(--space-lg);
+    gap: var(--space-md);
 }
 
 /* Circular Spinner */
@@ -86,7 +94,7 @@
 /* No Results State */
 .no-results {
     text-align: center;
-    padding: 4rem 2rem;
+    padding: var(--space-xl) var(--space-lg);
     color: #ffffff;
     font-size: 1.1rem;
     background: rgba(0, 0, 0, 0.6);
@@ -99,6 +107,7 @@
     font-size: 1.5rem;
     color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin-bottom: var(--space-sm);
 }
 
 .no-results p {
@@ -109,7 +118,7 @@
 /* Empty State (before search) */
 .empty-state {
     text-align: center;
-    padding: 5rem 2rem;
+    padding: var(--space-xl) var(--space-lg);
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -158,5 +167,29 @@
 @media (max-width: 480px) {
     .cards-grid {
         gap: 1rem;
+    }
+}
+@media (max-width: 1200px) {
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .displayer-container {
+        padding: var(--space-sm);
+        padding-left: var(--space-sm); /* removes fake sidebar space on mobile */
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-grid {
+        gap: var(--space-sm);
     }
 }

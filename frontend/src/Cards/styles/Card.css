@@ -1,4 +1,10 @@
 /* Individual Card Container - Glassmorphic */
+:root {
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+}
 .card {
     display: flex;
     flex-direction: column;
@@ -33,10 +39,10 @@
 
 /* Card Info Section */
 .card-info {
-    padding: 1rem;
+    padding: var(--space-md);
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: var(--space-xs);
     position: relative;
 }
 
@@ -80,7 +86,7 @@
 }
 
 .card-info p {
-    margin: 0.15rem 0;
+    margin: var(--space-xs) 0;
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.9);
     /* White text */
@@ -94,7 +100,7 @@
     /* Bright red for visibility */
     font-weight: 700;
     font-size: 1.05rem;
-    margin-top: 0.3rem;
+    margin-top: var(--space-sm);
 
 }
 
@@ -106,8 +112,8 @@
 /* View Ad Link */
 .card-info a {
     display: inline-block;
-    margin-top: 0.5rem;
-    padding: 0.5rem 1rem;
+    margin-top: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
     background: rgba(19, 20, 19, 0.8);
     color: white;
     text-decoration: none;
@@ -142,5 +148,55 @@
         height: 40px;
         font-size: 1.1rem;
         right: -12px;
+    }
+}
+/* Tablets */
+@media (max-width: 768px) {
+    .card {
+        max-width: 100%;
+    }
+
+    .card-image {
+        height: 170px;
+    }
+
+    .condition-badge {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        right: -12px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .card-image {
+        height: 150px;
+    }
+
+    .card-info h3 {
+        font-size: 0.95rem;
+    }
+
+    .card-info p {
+        font-size: 0.82rem;
+    }
+
+    .condition-badge {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+        right: -10px;
+    }
+}
+
+/* Very small devices */
+@media (max-width: 360px) {
+    .card-image {
+        height: 135px;
+    }
+
+    .card-info {
+        padding: var(--space-sm);
     }
 }
