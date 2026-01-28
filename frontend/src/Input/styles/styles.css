@@ -1,69 +1,208 @@
+/* Main Input Container - Glassmorphic Panel */
 #input {
     display: flex;
     flex-direction: row;
-    background-color:rgb(221, 222, 223);
-    border-radius: 0.3rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    margin: 2rem auto;
     margin-bottom: 3rem;
+    max-width: 1200px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
+/* Input Set - Individual Field Container */
 .inputSet {
     display: flex;
     flex-direction: column;
-    margin: 2rem;
+    flex: 1;
+    min-width: 200px;
+    gap: 0.5rem;
 }
 
-.inputBoxes {
-    padding: 0.6rem;
-    padding-left: 1rem;
-    padding-right: 3rem;
-    border-radius: 0.3rem;
-    border-style: none;
-    background-color: rgb(140, 140, 150);
-}
-
+/* Labels */
 label {
-    font-size: 0.9rem;
-    align-self: flex-start;
-    margin-left: 0.7rem;
+    font-size: 0.95rem;
+    color: #ffffff;
+    font-weight: 500;
+    margin-left: 0.2rem;
+    letter-spacing: 0.3px;
 }
 
+/* Input Boxes and Select Dropdowns */
+.inputBoxes,
+select.inputBoxes {
+    padding: 0.85rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 400;
+    outline: none;
+    transition: all 0.3s ease;
+    appearance: none;
+    cursor: pointer;
+}
+
+.inputBoxes::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.inputBoxes:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.inputBoxes:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Select dropdown arrow */
+select.inputBoxes {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+/* Search Button Container */
 #search {
-    background-color: rgb(49, 52, 140);
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 0;
 }
 
-/* Container needs relative to anchor the dropdown */
+#search button {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.85rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#search button:hover {
+    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.5);
+}
+
+#search button:active {
+    transform: translateY(0);
+}
+
+#search button:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.5;
+}
+
+/* Custom Dropdown for Model */
 #modelDiv {
     position: relative;
 }
 
 .customDropdown {
     position: absolute;
-    top: 100%; /* Sits right under the input */
-    left: 0.7rem; /* Matches your label margin */
+    top: 100%;
+    left: 0;
     right: 0;
-    margin: 0;
+    margin-top: 0.25rem;
     padding: 0;
     list-style: none;
-    background-color: rgb(140, 140, 150); /* Matches your inputBoxes color */
-    border-radius: 0 0 0.3rem 0.3rem;
-    max-height: 200px;
+    background: rgba(40, 40, 40, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    max-height: 250px;
     overflow-y: auto;
-    z-index: 10;
-    width: calc(100% - 2.7rem); /* Adjust based on your input padding/margin */
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .customDropdown li {
-    padding: 0.6rem 1rem;
+    padding: 0.85rem 1.2rem;
     cursor: pointer;
-    font-size: 0.9rem;
-    color: white;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+}
+
+.customDropdown li:last-child {
+    border-bottom: none;
 }
 
 .customDropdown li:hover {
-    background-color: rgb(49, 52, 140); /* Matches your search button color */
+    background: rgba(231, 76, 60, 0.3);
 }
+
 .customDropdown li.activeOption {
-    background-color: rgb(49, 52, 140); /* Match your search button color */
-    outline: none;
+    background: rgba(231, 76, 60, 0.4);
+    font-weight: 500;
+}
+
+/* Scrollbar styling for dropdown */
+.customDropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.customDropdown::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.customDropdown::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.customDropdown::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    #input {
+        gap: 1.2rem;
+        padding: 1.5rem 2rem;
+    }
+
+    .inputSet {
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    #input {
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .inputSet {
+        min-width: 100%;
+    }
+
+    #search {
+        width: 100%;
+    }
+
+    #search button {
+        width: 100%;
+        padding: 1rem;
+    }
 }

@@ -1,0 +1,116 @@
+/* Cards Displayer Container */
+.displayer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Cards Grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 3rem;
+    color: #ffffff;
+    font-size: 1.2rem;
+}
+
+.loading::after {
+    content: '...';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+
+    0%,
+    20% {
+        content: '.';
+    }
+
+    40% {
+        content: '..';
+    }
+
+    60%,
+    100% {
+        content: '...';
+    }
+}
+
+/* Error State */
+.error {
+    text-align: center;
+    padding: 3rem;
+    color: #e74c3c;
+    font-size: 1.1rem;
+    background: rgba(231, 76, 60, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+/* No Results State */
+.no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.no-results h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+.no-results p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Empty State (before search) */
+.empty-state {
+    text-align: center;
+    padding: 5rem 2rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.empty-state h2 {
+    color: #ffffff;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .displayer-container {
+        padding: 1rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-grid {
+        gap: 1rem;
+    }
+}

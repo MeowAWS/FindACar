@@ -1,24 +1,69 @@
-p {
-    margin: 0px;
+/* Card Info Section - Additional Styling */
+.info-container {
+    padding: 1.25rem;
+    background: white;
 }
 
-#info {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-left: 1rem;
-}
-
-#carName {
+.info-title {
     font-size: 1.2rem;
-    color: black;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
 }
 
-#price {
-    font-size : 1.2rem;
-    color: rgb(15, 133, 213);
+.info-price {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e74c3c;
+    margin: 0.5rem 0;
 }
 
-#condition {
-    color: rgb(91, 95, 109);
-} 
+.info-detail {
+    font-size: 0.95rem;
+    color: #555;
+    margin: 0.4rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-detail strong {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.info-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.info-badge.used {
+    background: rgba(241, 196, 15, 0.1);
+    color: #f39c12;
+}
+
+.info-badge.new {
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+}
+
+/* Location Info */
+.info-location {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.info-location::before {
+    content: '📍';
+}

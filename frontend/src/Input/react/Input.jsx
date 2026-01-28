@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import '../styles/styles.css'
 
 // These are your individual components
 import Brand from "./Brand";
@@ -57,12 +58,6 @@ function Input({
                 selectedModel={selectedModel}  // current value
                 onModelChange={setSelectedModel} // setter function
             />
-            <Condition
-                onConditionChange={setSelectedCondition}
-            />
-
-
-            {/* Range slider or input */}
             <Range onRangeChange={setSelectedRange} />
 
             {/* Condition dropdown */}

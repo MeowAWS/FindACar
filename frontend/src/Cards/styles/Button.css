@@ -1,12 +1,104 @@
-#pakwheelButton {
-    background-color: rgb(68, 68, 198);
-    color:aliceblue;
-    padding: 0.4rem;
-    padding-left: 1.8rem;
-    padding-right: 1.8rem;
-    border-radius: 0.5rem;
+/* Card Button Styling */
+.card-button {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    margin-top: 0.75rem;
 }
 
-#pakwheelButton:hover {
-    background-color: rgb(77, 77, 213);
+.card-button:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.card-button:active {
+    transform: translateY(0);
+}
+
+/* Primary Button (View Ad) */
+.card-button-primary {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.card-button-primary:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
+}
+
+/* Secondary Button (Contact) */
+.card-button-secondary {
+    background: transparent;
+    border: 2px solid #3498db;
+    color: #3498db;
+    padding: 0.6rem 1.4rem;
+}
+
+.card-button-secondary:hover {
+    background: #3498db;
+    color: white;
+}
+
+/* Success Button (Save/Favorite) */
+.card-button-success {
+    background: #27ae60;
+}
+
+.card-button-success:hover {
+    background: #229954;
+}
+
+/* Icon Buttons */
+.card-button-icon {
+    padding: 0.6rem 0.8rem;
+    min-width: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Button Group */
+.card-button-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Small Button Variant */
+.card-button-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+/* Disabled State */
+.card-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.card-button:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-button {
+        width: 100%;
+        padding: 0.8rem 1rem;
+    }
+
+    .card-button-group {
+        flex-direction: column;
+    }
 }

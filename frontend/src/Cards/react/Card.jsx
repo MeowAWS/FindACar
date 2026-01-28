@@ -1,3 +1,6 @@
+import '../styles/Card.css'
+
+
 function Card({ car }) {
     return (
         <div className="card">
