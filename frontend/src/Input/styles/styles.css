@@ -1,4 +1,6 @@
-/* Main Input Container - Glassmorphic Panel */
+/* ============================= */
+/* Main Input Container */
+/* ============================= */
 #input {
     display: flex;
     flex-direction: row;
@@ -15,10 +17,12 @@
     margin-left: auto;
     margin-right: auto;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
 
-/* Input Set - Individual Field Container */
+/* ============================= */
+/* Input Set */
+/* ============================= */
 .inputSet {
     display: flex;
     flex-direction: column;
@@ -27,7 +31,9 @@
     gap: 0.5rem;
 }
 
+/* ============================= */
 /* Labels */
+/* ============================= */
 label {
     font-size: 0.95rem;
     color: #ffffff;
@@ -36,7 +42,9 @@ label {
     letter-spacing: 0.3px;
 }
 
-/* Input Boxes and Select Dropdowns */
+/* ============================= */
+/* Inputs & Select */
+/* ============================= */
 .inputBoxes,
 select.inputBoxes {
     padding: 0.85rem 1.2rem;
@@ -45,7 +53,6 @@ select.inputBoxes {
     background: rgba(255, 255, 255, 0.15);
     color: #ffffff;
     font-size: 0.95rem;
-    font-weight: 400;
     outline: none;
     transition: all 0.3s ease;
     appearance: none;
@@ -56,45 +63,45 @@ select.inputBoxes {
     color: rgba(255, 255, 255, 0.6);
 }
 
+.inputBoxes:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
 .inputBoxes:focus {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.4);
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
-.inputBoxes:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Select dropdown arrow */
+/* ============================= */
+/* Native Select Arrow */
+/* ============================= */
 select.inputBoxes {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     padding-right: 2.5rem;
 }
 
-/* Dropdown option colors - BLACK TEXT */
 select.inputBoxes option {
     background: #ffffff;
     color: #000000;
-    padding: 0.5rem;
 }
 
-/* Search Button Container */
+/* ============================= */
+/* Search Button */
+/* ============================= */
 #searchDiv {
     display: flex;
     align-items: center;
-    padding-bottom: 0;
     margin-top: 1.7rem;
 }
 
 .searchButton {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
     color: white;
     border: none;
     border-radius: 8px;
-    margin-top: 2px;
     padding: 0.85rem 2.5rem;
     font-size: 1rem;
     font-weight: 600;
@@ -102,27 +109,21 @@ select.inputBoxes option {
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .searchButton:hover {
-    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(231, 76, 60, 0.5);
 }
 
-.searchButton:active {
-    transform: translateY(0);
-}
-
 .searchButton:disabled {
-    background: rgba(255, 255, 255, 0.1);
-    cursor: not-allowed;
-    box-shadow: none;
     opacity: 0.5;
+    cursor: not-allowed;
 }
 
-/* Custom Dropdown for Model - ENHANCED SCROLLING */
+/* ============================= */
+/* Custom Dropdown */
+/* ============================= */
 #modelDiv {
     position: relative;
 }
@@ -133,30 +134,34 @@ select.inputBoxes option {
     left: 0;
     right: 0;
     margin-top: 0.25rem;
-    padding: 0;
     list-style: none;
     background: rgba(255, 255, 255, 0.98);
-    /* Changed to white for better visibility */
-    backdrop-filter: blur(10px);
     border-radius: 8px;
-    max-height: 300px;
-    /* Increased height for more visible scrolling */
+
+    /* 🔥 KEY PART */
+    max-height: calc(3 * 3rem);
+    /* SHOW ONLY 3 ITEMS */
     overflow-y: auto;
-    /* Enables vertical scrolling */
-    overflow-x: hidden;
+
     z-index: 100;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+/* ============================= */
+/* Dropdown Items */
+/* ============================= */
 .customDropdown li {
-    padding: 0.85rem 1.2rem;
-    cursor: pointer;
+    height: 3rem;
+    /* FIXED ITEM HEIGHT */
+    padding: 0 1.2rem;
+    display: flex;
+    align-items: center;
     font-size: 0.95rem;
-    color: #000000;
-    /* Black text on white background */
+    color: #000;
+    cursor: pointer;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    transition: all 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 .customDropdown li:last-child {
@@ -174,69 +179,43 @@ select.inputBoxes option {
     font-weight: 600;
 }
 
-/* Enhanced Scrollbar styling for dropdown - MORE VISIBLE */
+/* ============================= */
+/* Scrollbar */
+/* ============================= */
 .customDropdown::-webkit-scrollbar {
     width: 10px;
-    /* Wider scrollbar */
-}
-
-.customDropdown::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 5px;
-    margin: 4px 0;
 }
 
 .customDropdown::-webkit-scrollbar-thumb {
     background: rgba(231, 76, 60, 0.6);
-    /* Red scrollbar to match theme */
     border-radius: 5px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .customDropdown::-webkit-scrollbar-thumb:hover {
     background: rgba(231, 76, 60, 0.8);
-    /* Darker on hover */
 }
 
-/* For Firefox */
+/* Firefox */
 .customDropdown {
     scrollbar-width: thin;
     scrollbar-color: rgba(231, 76, 60, 0.6) rgba(0, 0, 0, 0.05);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    #input {
-        gap: 1.2rem;
-        padding: 1.5rem 2rem;
-    }
-
-    .inputSet {
-        min-width: 180px;
-    }
-}
-
+/* ============================= */
+/* Responsive */
+/* ============================= */
 @media (max-width: 768px) {
     #input {
         flex-direction: column;
         padding: 1.5rem;
     }
 
-    .inputSet {
-        min-width: 100%;
-    }
-
-    #searchDiv {
-        width: 100%;
-    }
-
     .searchButton {
         width: 100%;
-        padding: 1rem;
     }
 
     .customDropdown {
-        max-height: 250px;
-        /* Shorter on mobile */
+        max-height: calc(3 * 3rem);
+        /* still 3 items */
     }
 }
