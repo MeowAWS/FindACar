@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from schema import pechay_say_ADS_lao, get_all_the_brands, get_all_names
+from schema import pechay_say_ADS_lao, get_all_the_brands, get_all_names,search_records
 
 app = FastAPI()
 
@@ -23,7 +23,8 @@ async def search(
     price: int = Query(...),
     condition: str = Query(...)
 ):
-    results = pechay_say_ADS_lao(brand, name, price, condition)
+    # results = pechay_say_ADS_lao(brand, name, price, condition)
+    results = search_records(brand, name, price, condition)
     return {"results": results}
 
 @app.get("/brands")
