@@ -4,14 +4,16 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 1.5rem;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border-radius: 12px;
-    padding: 2rem 2.5rem;
-    margin: 2rem auto;
+    padding: 3rem 2.5rem;
+    margin-top: 4rem;
     margin-bottom: 3rem;
     max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
@@ -72,18 +74,29 @@ select.inputBoxes {
     padding-right: 2.5rem;
 }
 
-/* Search Button Container */
-#search {
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: 0;
+/* FIX: Dropdown option colors - BLACK TEXT */
+select.inputBoxes option {
+    background: #ffffff;
+    /* White background */
+    color: #000000;
+    /* Black text */
+    padding: 0.5rem;
 }
 
-#search button {
+/* Search Button Container */
+#searchDiv {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0;
+    margin-top: 1.7rem;
+}
+
+.searchButton {
     background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
     color: white;
     border: none;
     border-radius: 8px;
+    margin-top: 2px;
     padding: 0.85rem 2.5rem;
     font-size: 1rem;
     font-weight: 600;
@@ -94,17 +107,17 @@ select.inputBoxes {
     letter-spacing: 0.5px;
 }
 
-#search button:hover {
+.searchButton:hover {
     background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(231, 76, 60, 0.5);
 }
 
-#search button:active {
+.searchButton:active {
     transform: translateY(0);
 }
 
-#search button:disabled {
+.searchButton:disabled {
     background: rgba(255, 255, 255, 0.1);
     cursor: not-allowed;
     box-shadow: none;
@@ -197,11 +210,11 @@ select.inputBoxes {
         min-width: 100%;
     }
 
-    #search {
+    #searchDiv {
         width: 100%;
     }
 
-    #search button {
+    .searchButton {
         width: 100%;
         padding: 1rem;
     }

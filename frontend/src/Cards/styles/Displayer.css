@@ -1,45 +1,73 @@
-/* Cards Displayer Container */
+/* Cards Displayer Container - NO WHITE BACKGROUND */
 .displayer-container {
     max-width: 1400px;
     margin: 0 auto;
+    margin-left: 75px;
     padding: 2rem;
+    background: transparent;
+    /* Fully transparent */
 }
 
-/* Cards Grid */
+/* Cards Grid - Fixed 3 columns */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    /* Exactly 3 columns */
     gap: 2rem;
     padding: 1rem 0;
 }
 
-/* Loading State */
+/* Loading State - Pretty Circular Loader */
 .loading {
     text-align: center;
-    padding: 3rem;
+    padding: 5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Circular Spinner */
+.loading::before {
+    content: '';
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-top: 5px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: block;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Loading Text */
+.loading::after {
+    content: 'Loading cars...';
     color: #ffffff;
     font-size: 1.2rem;
+    font-weight: 600;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    animation: pulse 1.5s ease-in-out infinite;
 }
 
-.loading::after {
-    content: '...';
-    animation: dots 1.5s steps(4, end) infinite;
-}
-
-@keyframes dots {
+@keyframes pulse {
 
     0%,
-    20% {
-        content: '.';
-    }
-
-    40% {
-        content: '..';
-    }
-
-    60%,
     100% {
-        content: '...';
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
     }
 }
 
@@ -47,11 +75,12 @@
 .error {
     text-align: center;
     padding: 3rem;
-    color: #e74c3c;
+    color: #ffffff;
     font-size: 1.1rem;
-    background: rgba(231, 76, 60, 0.1);
+    background: rgba(231, 76, 60, 0.8);
     border-radius: 8px;
-    border: 1px solid rgba(231, 76, 60, 0.3);
+    border: 1px solid rgba(231, 76, 60, 0.9);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* No Results State */
@@ -60,30 +89,35 @@
     padding: 4rem 2rem;
     color: #ffffff;
     font-size: 1.1rem;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
 }
 
 .no-results h3 {
     margin: 0 0 1rem 0;
     font-size: 1.5rem;
     color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .no-results p {
     margin: 0;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* Empty State (before search) */
 .empty-state {
     text-align: center;
     padding: 5rem 2rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .empty-state h2 {
     color: #ffffff;
     font-size: 2rem;
     margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .empty-state p {
@@ -93,7 +127,8 @@
 /* Responsive Design */
 @media (max-width: 1200px) {
     .cards-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns on tablets */
         gap: 1.5rem;
     }
 }
@@ -105,7 +140,18 @@
 
     .cards-grid {
         grid-template-columns: 1fr;
+        /* 1 column on mobile */
         gap: 1.5rem;
+    }
+
+    .loading::before {
+        width: 50px;
+        height: 50px;
+        border-width: 4px;
+    }
+
+    .loading::after {
+        font-size: 1rem;
     }
 }
 

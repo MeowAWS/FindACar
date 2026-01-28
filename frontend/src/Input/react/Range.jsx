@@ -14,7 +14,7 @@ function Range({ onRangeChange }) {
 
     return (
         <div className="inputSet" id="rangeDiv">
-            <label htmlFor="range">Max Price (in Lakh):</label>
+            <label htmlFor="range">Max Price (in PKR) </label>
             <input
                 id="range"
                 type="text"

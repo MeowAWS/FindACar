@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import '../styles/styles.css'
 
+// isko nai cherna tha Alyan bhai
+
 // These are your individual components
 import Brand from "./Brand";
 import Model from "./Model";

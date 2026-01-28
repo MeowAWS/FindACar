@@ -52,7 +52,7 @@ function Model({ models, selectedModel, onModelChange }) {
 
     return (
         <div className="inputSet" id="modelDiv" onKeyDown={handleKeyDown}>
-            <label htmlFor="model">Select Model</label>
+            <label htmlFor="model">Car Name</label>
             <input
                 className="inputBoxes"
                 type="text"
