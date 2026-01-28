@@ -31,6 +31,12 @@ function App() {
     setSearchPressed(false);
   };
 
+  useEffect(() => {
+    if(allSelected){
+      setSearchPressed(true);
+    }
+  }, [selectedCondition]);
+
   return (
     <>
       <div>
