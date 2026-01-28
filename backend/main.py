@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from schema import pechay_say_ADS_lao, get_all_the_brands, get_all_names,search_records
+from schema import pechay_say_ADS_lao, get_all_the_brands, get_all_names,validate_ads_and_update
 
 app = FastAPI()
 
@@ -16,6 +16,15 @@ app.add_middleware(
 def home():
     return {"message": "API is running"}
 
+
+
+@app.get("/update_db")
+def update():
+    validate_ads_and_update()
+    return {"status": "ok"}
+
+
+
 @app.get("/search")
 async def search(
     brand: str = Query(...),
@@ -23,8 +32,7 @@ async def search(
     price: int = Query(...),
     condition: str = Query(...)
 ):
-    # results = pechay_say_ADS_lao(brand, name, price, condition)
-    results = search_records(brand, name, price, condition)
+    results = pechay_say_ADS_lao(brand, name, price, condition)
     return {"results": results}
 
 @app.get("/brands")
@@ -40,6 +48,3 @@ async def get_names(brand: str):
 async def get_conditions():
     # You can replace this with your DB query later
     return {"conditions": ["A+", "A", "B+", "B", "C+", "C"]}
-
-print("kam kr lo bhai plzzzzzzzzzzzzzzzzzzzzzzzzzz")
-print("tension na lo subi bhai")

@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 from bson import ObjectId
 from database import setup_db,setup_db_1,setup_db_2
+from datetime import datetime,timezone
+
+
 
 def search_records(brand, name, price, condition_label):
     collection, db = setup_db()
@@ -48,7 +51,8 @@ def search_records(brand, name, price, condition_label):
                 "name": "$model_info.name",
                 "price": 1,
                 "condition": "$condition_label",
-                "image": { "$arrayElemAt": ["$images", 0] }
+                "image": { "$arrayElemAt": ["$images", 0] },
+                "is_active": 1
             }
         }
     ]
@@ -60,31 +64,61 @@ def search_records(brand, name, price, condition_label):
 
 
 #validates if the ad. still exist or now 
-def pechay_say_ADS_lao(brand,name,price,condition_label):
+def pechay_say_ADS_lao(brand, name, price, condition_label):
+    ads = search_records(brand, name, price, condition_label)
+
+    valid_ads = [ad for ad in ads if ad.get("is_active") is True]
+
+    return valid_ads
+
+
+def validate_ads_and_update():
+    collection, db = setup_db()
+
     headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
     "Accept-Language": "en-US,en;q=0.9",
     "Referer": "https://www.pakwheels.com/used-cars/honda/32"
     }
-    ads = search_records(brand, name, price, condition_label)
 
-    valid_ads = []
+    # Fetch all ads from DB
+    ads = collection.find({}, {"_id": 1, "URL": 1})
 
     for ad in ads:
-        url = ad["url"]
+        ad_id = ad["_id"]
+        url = ad.get("URL")
+
+        if not url:
+            continue
+
+        is_active = True
+
         try:
             response = requests.get(url, headers=headers, timeout=5)
+
             if response.status_code != 200:
-                continue
-            soup = BeautifulSoup(response.text, "html.parser")
-            # This text appears when ad is expired
-            if "This ad is no longer active" in soup.text:
-                continue  # skip expired ad
-            # Otherwise it's valid
-            valid_ads.append(ad)
+                is_active = False
+            else:
+                soup = BeautifulSoup(response.text, "html.parser")
+                if "This ad is no longer active" in soup.text:
+                    is_active = False
+
         except Exception:
-            continue
-    return valid_ads
+            is_active = False
+
+        # ✅ Update DB (this is the important part)
+        collection.update_one(
+            {"_id": ad_id},
+            {
+                "$set": {
+                    "is_active": is_active,
+                    "last_checked": datetime.now(timezone.utc)
+                }
+            }
+        )
+
+    print("Validation completed.")
+
 
 def get_all_the_brands():
     
