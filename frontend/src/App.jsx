@@ -1,10 +1,14 @@
+
+import { Analytics } from "@vercel/analytics/react"
 import { useState, useEffect } from 'react'
 import './App.css'
 import Displayer from './Cards/react/Displayer'
 import Input from "./Input/react/Input"
 
+
+
 function App() {
-  const [count, setCount] = useState(0)
+
 
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
@@ -32,7 +36,7 @@ function App() {
   };
 
   useEffect(() => {
-    if(allSelected){
+    if (allSelected) {
       setSearchPressed(true);
     }
   }, [selectedCondition]);
@@ -40,7 +44,7 @@ function App() {
   return (
     <>
       <div>
-
+        <Analytics />
         <Input
           setSelectedBrand={setSelectedBrand}
           selectedBrand={selectedBrand}
