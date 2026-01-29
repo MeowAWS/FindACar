@@ -4,8 +4,10 @@ function Condition({ onConditionChange }) {
     const [conditions, setConditions] = useState([]);
     const [selected, setSelected] = useState("");
 
+    const API_URL = import.meta.env.VITE_API_URL;
+
     useEffect(() => {
-        fetch("http://localhost:8000/conditions")
+        fetch(`${API_URL}conditions`)
             .then((res) => res.json())
             .then((data) => setConditions(data.conditions))
             .catch((err) => console.error(err));

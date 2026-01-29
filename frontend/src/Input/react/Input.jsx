@@ -21,12 +21,14 @@ function Input({
     onSearchClick,
 }) {
 
+    const API_URL = import.meta.env.VITE_API_URL;
+
     const [brands, setBrands] = useState([]);
     const [models, setModels] = useState([]);
 
     // Fetch all brands from backend on mount
     useEffect(() => {
-        fetch("http://localhost:8000/brands")
+        fetch(`${API_URL}brands`)
             .then(res => res.json())
             .then(data => setBrands(data.brands))
             .catch(err => console.error(err));
@@ -40,7 +42,7 @@ function Input({
             return;
         }
 
-        fetch(`http://localhost:8000/names?brand=${selectedBrand}`)
+        fetch(`${API_URL}names?brand=${selectedBrand}`)
             .then(res => res.json())
             .then(data => setModels(data.Car_name))
             .catch(err => console.error(err));

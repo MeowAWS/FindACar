@@ -15,6 +15,8 @@ function Displayer({ brand, model, price, condition, searchPressed, turnSearchOf
         return savedSearchState === 'true';
     });
 
+    const API_URL = import.meta.env.VITE_API_URL;
+
     useEffect(() => {
         if (!searchPressed) return;
 
@@ -23,7 +25,7 @@ function Displayer({ brand, model, price, condition, searchPressed, turnSearchOf
             setHasSearched(true);
             try {
                 const response = await fetch(
-                    `http://localhost:8000/search?brand=${brand}&name=${model}&price=${price}&condition=${condition}`
+                    `${API_URL}search?brand=${brand}&name=${model}&price=${price}&condition=${condition}`
                 );
                 const data = await response.json();
                 const results = data.results || [];
