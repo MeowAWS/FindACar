@@ -36,7 +36,7 @@ def search_records(brand, name, price, condition_label):
         {
             "$match": {
                 "brand_info.name": {"$regex": brand, "$options": "i"},
-                "model_info.name": {"$regex": name, "$options": "i"},
+                "model_info.name": {"$regex": name},
                 "condition_label": condition_label,
                 "price": {"$lte": int(price)}
             }
