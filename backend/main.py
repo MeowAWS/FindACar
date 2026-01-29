@@ -47,4 +47,4 @@ async def get_names(brand: str):
 @app.get("/conditions")
 async def get_conditions():
     # You can replace this with your DB query later
-    return {"conditions": ["A+", "A", "B+", "B", "C+", "C"]}
+    return {"conditions": ["A+", "A", "B", "C"]}

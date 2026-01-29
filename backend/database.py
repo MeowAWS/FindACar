@@ -7,7 +7,7 @@ client=MongoClient(db_url)
 #calling function to setup db
 def setup_db():
     db = client["auto_shop"]
-    collection = db["cars"]
+    collection = db["cars_temp"]
     return collection, db
 def setup_db_1():
     db = client["auto_shop"]
