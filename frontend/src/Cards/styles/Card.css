@@ -5,22 +5,31 @@
     --space-md: 1rem;
     --space-lg: 1.5rem;
 }
+
 .card {
     display: flex;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.1);
-    /* Transparent like search bar */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    transition: all 0.3s ease;
+    transition: all 0.3s ease, opacity 0.5s ease, transform 0.5s ease;
     width: 100%;
     max-width: 320px;
     cursor: pointer;
     position: relative;
+
+    /* Animation start */
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .card:hover {
@@ -54,7 +63,6 @@
     transform: translateY(-50%);
     width: 45px;
     height: 45px;
-
     background: linear-gradient(135deg, rgba(76, 208, 18, 0.8), rgba(76, 168, 18, 0.8));
     color: white;
     font-weight: 700;
@@ -79,7 +87,6 @@
     font-size: 1.05rem;
     font-weight: 700;
     color: #ffffff;
-    /* White text for glassmorphic card */
     line-height: 1.3;
     padding-right: 35px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
@@ -89,7 +96,6 @@
     margin: var(--space-xs) 0;
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.9);
-    /* White text */
     font-weight: 500;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
@@ -97,11 +103,9 @@
 /* Price styling */
 .card-info p:first-of-type {
     color: #f1be18;
-    /* Bright red for visibility */
     font-weight: 700;
     font-size: 1.05rem;
     margin-top: var(--space-sm);
-
 }
 
 /* Hide the condition text since we're showing it in badge */
@@ -150,25 +154,7 @@
         right: -12px;
     }
 }
-/* Tablets */
-@media (max-width: 768px) {
-    .card {
-        max-width: 100%;
-    }
 
-    .card-image {
-        height: 170px;
-    }
-
-    .condition-badge {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
-        right: -12px;
-    }
-}
-
-/* Small phones */
 @media (max-width: 480px) {
     .card-image {
         height: 150px;
@@ -190,7 +176,6 @@
     }
 }
 
-/* Very small devices */
 @media (max-width: 360px) {
     .card-image {
         height: 135px;

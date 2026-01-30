@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
-import Card from "./Card";
-import "../styles/Displayer.css";
+import { useState, useEffect } from "react";
+import Card from "./Card"; // assuming you have a Card component
+import "../styles/Displayer.css"
 
 function Displayer({ brand, model, price, condition, searchPressed, turnSearchOff }) {
+    // Load saved cars from sessionStorage on initial render
     const [cars, setCars] = useState(() => {
-        // Load saved cars from localStorage on initial render
-        const savedCars = localStorage.getItem('searchResults');
+        const savedCars = sessionStorage.getItem('searchResults');
         return savedCars ? JSON.parse(savedCars) : [];
     });
+
     const [loading, setLoading] = useState(false);
+
+    // Load search state from sessionStorage
     const [hasSearched, setHasSearched] = useState(() => {
-        // Load search state from localStorage
-        const savedSearchState = localStorage.getItem('hasSearched');
+        const savedSearchState = sessionStorage.getItem('hasSearched');
         return savedSearchState === 'true';
     });
 
@@ -33,13 +35,13 @@ function Displayer({ brand, model, price, condition, searchPressed, turnSearchOf
                 // Save results to state
                 setCars(results);
 
-                // Save results to localStorage
-                localStorage.setItem('searchResults', JSON.stringify(results));
-                localStorage.setItem('hasSearched', 'true');
+                // Save results to sessionStorage (only persists across refresh)
+                sessionStorage.setItem('searchResults', JSON.stringify(results));
+                sessionStorage.setItem('hasSearched', 'true');
             } catch (err) {
                 console.error("Error fetching cars:", err);
                 setCars([]);
-                localStorage.setItem('searchResults', JSON.stringify([]));
+                sessionStorage.setItem('searchResults', JSON.stringify([]));
             } finally {
                 setLoading(false);
                 turnSearchOff();

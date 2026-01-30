@@ -3,7 +3,12 @@ import "./Hero.css";
 
 function Hero({ searchButtonOn }) {
   const [showContent, setShowContent] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
+  
+  // Initialize from sessionStorage
+  const [hasSearched, setHasSearched] = useState(() => {
+    const saved = sessionStorage.getItem("hasSearched");
+    return saved === "true"; // true if previously searched
+  });
 
   useEffect(() => {
     setShowContent(true);
@@ -12,8 +17,9 @@ function Hero({ searchButtonOn }) {
   useEffect(() => {
     if (searchButtonOn && !hasSearched) {
       setHasSearched(true);
+      sessionStorage.setItem("hasSearched", "true"); // persist for refresh
     }
-  }, [searchButtonOn]);
+  }, [searchButtonOn, hasSearched]);
 
   return (
     <div className={`hero-wrapper ${hasSearched ? "hidden" : ""}`}>
@@ -24,6 +30,5 @@ function Hero({ searchButtonOn }) {
     </div>
   );
 }
-
 
 export default Hero;
