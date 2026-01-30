@@ -69,7 +69,6 @@ function Input({
 
             {/* Search button */}
             <Search allSelected={allSelected} onSearchClick={onSearchClick} />
-
         </div>
     );
 }
