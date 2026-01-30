@@ -98,7 +98,6 @@
     color: #ffffff;
     font-size: 1.1rem;
     border-radius: 12px;
-    backdrop-filter: blur(10px);
 }
 
 .no-results h3 {

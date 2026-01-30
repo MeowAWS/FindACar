@@ -169,13 +169,11 @@ select.inputBoxes option {
 }
 
 .customDropdown li:hover {
-    background: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
+    background: #99C8FF;
 }
 
 .customDropdown li.activeOption {
-    background: rgba(231, 76, 60, 0.2);
-    color: #c0392b;
+    background: #99C8FF;
     font-weight: 600;
 }
 
@@ -187,18 +185,18 @@ select.inputBoxes option {
 }
 
 .customDropdown::-webkit-scrollbar-thumb {
-    background: rgba(231, 76, 60, 0.6);
+    background: #99C8FF;
     border-radius: 5px;
 }
 
 .customDropdown::-webkit-scrollbar-thumb:hover {
-    background: rgba(231, 76, 60, 0.8);
+    background: #99C8FF;
 }
 
 /* Firefox */
 .customDropdown {
     scrollbar-width: thin;
-    scrollbar-color: rgba(231, 76, 60, 0.6) rgba(0, 0, 0, 0.05);
+    scrollbar-color: #99C8FF rgba(0, 0, 0, 0.05);
 }
 
 /* ============================= */
