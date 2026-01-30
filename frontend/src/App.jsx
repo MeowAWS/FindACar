@@ -5,6 +5,7 @@ import './App.css'
 import Displayer from './Cards/react/Displayer'
 import Input from "./Input/react/Input"
 import Hero from './Hero/Hero'
+import TopBar from "./TopBar/TopBar"
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
   return (
     <>
       <div>
+        <TopBar />
         <Analytics />
         <Hero searchButtonOn={searchPressed}/>
         <div id='searchBar' className={`fade-in ${showContent ? "visible" : ""}`}>

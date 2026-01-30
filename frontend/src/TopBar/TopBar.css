@@ -1,0 +1,64 @@
+/* Top Bar Container */
+#topbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* logo left, contact right */
+    align-items: center;
+    padding: 0.8rem 2rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+/* Logo / Title */
+#findacar {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Contact link */
+#topbar a {
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+
+#logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* space between image and text */
+}
+
+#logo {
+    width: 4rem;  /* adjust as needed */
+    height: 2rem; /* keep it square */
+    object-fit: contain; /* prevent distortion */
+}
+
+/* Responsive: stack on very small screens */
+@media (max-width: 480px) {
+    #topbar {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+    }
+
+    #findacar {
+        font-size: 1rem;
+    }
+
+    #topbar a {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.9rem;
+    }
+}
