@@ -16,7 +16,7 @@
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    transition: all 0.3s ease, opacity 0.5s ease, transform 0.5s ease;
+    transition: all 0.5s ease, opacity 0.5s ease, transform 0.5s ease;
     width: 100%;
     max-width: 320px;
     cursor: pointer;
@@ -33,8 +33,8 @@
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.1);
     box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
 }
 
@@ -102,7 +102,7 @@
 
 /* Price styling */
 .card-info p:first-of-type {
-    color: #f1be18;
+    color: #5c8cfa;
     font-weight: 700;
     font-size: 1.05rem;
     margin-top: var(--space-sm);
@@ -127,14 +127,12 @@
     text-align: center;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
-    box-shadow: 0 2px 15px rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .card-info a:hover {
-    background: rgba(41, 128, 185, 0.9);
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+    background: rgba(6, 61, 98, 0.9);
+    transform: scale(1.02);  
 }
 
 /* Responsive Design */
