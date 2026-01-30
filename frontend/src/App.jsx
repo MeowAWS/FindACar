@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Displayer from './Cards/react/Displayer'
 import Input from "./Input/react/Input"
-
-
+import Hero from './Hero/Hero'
+import TopBar from "./TopBar/TopBar"
 
 function App() {
 
@@ -41,10 +41,19 @@ function App() {
     }
   }, [selectedCondition]);
 
+
+  const [showContent, setShowContent] = useState(false);
+
+    useEffect(() => {
+      setShowContent(true);
+    }, []);
   return (
     <>
       <div>
+        <TopBar />
         <Analytics />
+        <Hero searchButtonOn={searchPressed}/>
+        <div id='searchBar' className={`fade-in ${showContent ? "visible" : ""}`}>
         <Input
           setSelectedBrand={setSelectedBrand}
           selectedBrand={selectedBrand}
@@ -54,6 +63,7 @@ function App() {
           allSelected={allSelected}
           onSearchClick={handleSearchTrigger}
         />
+        </div>
 
         <Displayer
           brand={selectedBrand}

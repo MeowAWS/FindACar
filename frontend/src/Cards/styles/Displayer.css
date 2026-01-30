@@ -11,7 +11,7 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem;
-    padding-left: calc(2rem + 60px); /* controlled, responsive */
+    padding-left: calc(2rem + 73px); /* controlled, responsive */
     background: transparent;
     /* Fully transparent */
 }
@@ -97,13 +97,13 @@
     padding: var(--space-xl) var(--space-lg);
     color: #ffffff;
     font-size: 1.1rem;
-    background: rgba(0, 0, 0, 0.6);
     border-radius: 12px;
-    backdrop-filter: blur(10px);
 }
 
 .no-results h3 {
     margin: 0 0 1rem 0;
+    margin-top: 3.5rem;
+    margin-right: 2.5rem;
     font-size: 1.5rem;
     color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
