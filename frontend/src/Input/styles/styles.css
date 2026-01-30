@@ -113,7 +113,6 @@ select.inputBoxes option {
 
 .searchButton:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(69, 231, 60, 0.4);
 }
 
 .searchButton:disabled {
