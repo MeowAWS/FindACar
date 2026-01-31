@@ -10,28 +10,34 @@
 }
 
 #description {
-    color:aliceblue;
-    font-size: 4rem;
-    text-align: center;
+  color: aliceblue;
+  font-family: "Bitcount Single", system-ui;
+  font-weight: 300;
+  font-size: 4rem;
+  text-align: center;
 }
 
 #textBelow {
-    margin: 1rem;
-    font-size: 2rem;
+  margin: 1rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+
 }
 
 #herodiv {
-    padding: 6rem;
-    padding-bottom: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  padding: 6rem;
+  padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#searchBar{
-    transition: opacity 2.5s ease, transform 2.3s ease;
+#searchBar {
+  transition: opacity 2.5s ease, transform 2.3s ease;
 }
+
 .hero-wrapper {
   overflow: hidden;
   transition: max-height 0.8s ease, opacity 0.6s ease;
