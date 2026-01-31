@@ -75,8 +75,6 @@
     }
 }
 
-
-
 /* LEFT logo + phrase */
 #left-container {
     display: flex;
@@ -99,12 +97,6 @@
     color: #ffffff;
     white-space: nowrap;
 }
-
-
-
-
-
-
 
 /* Crystal / shiny text effect */
 .crystal-text {
@@ -134,5 +126,37 @@
 
     100% {
         background-position: 0% 0%;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Hide left container completely */
+    #left-container {
+        display: none;
+    }
+
+    /* Move main logo + text to the left */
+    #logo-container {
+        position: static;      /* remove absolute centering */
+        transform: none;       /* remove translateX */
+        margin-left: 0;        /* align to left edge */
+        display: flex;
+        align-items: center;
+        gap: 0rem;
+    }
+
+    /* Optionally shrink logo and text a bit */
+    #logo {
+        width: 2rem;
+        height: 1rem;
+    }
+
+    #findacar {
+        font-size: 1rem;
+        margin-left: 0px;
+    }
+
+    #contactUs {
+        font-size: 0.7rem;
     }
 }
