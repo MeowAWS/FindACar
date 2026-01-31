@@ -99,3 +99,40 @@
     color: #ffffff;
     white-space: nowrap;
 }
+
+
+
+
+
+
+
+/* Crystal / shiny text effect */
+.crystal-text {
+    background: linear-gradient(45deg,
+            #c5ecd7,
+            /* soft green */
+            #c0c0c0,
+            /* silver */
+            #b6a0a0,
+            #d0d0d0);
+    background-size: 300% 300%;
+    /* make gradient bigger for smooth movement */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: crystalMove 3s linear infinite;
+}
+
+/* Animation for gradient movement */
+@keyframes crystalMove {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    50% {
+        background-position: 100% 100%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}

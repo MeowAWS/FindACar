@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import '../styles/styles.css'
 
+
 // isko nai cherna tha Alyan bhai
 
 // These are your individual components
@@ -49,9 +50,10 @@ function Input({
     }, [selectedBrand, setSelectedModel]);
 
     return (
-        <div id="input">
+        <div id="input" >
 
             {/* Brand dropdown */}
+
             <Brand
                 brands={brands}
                 onBrandChange={setSelectedBrand}
