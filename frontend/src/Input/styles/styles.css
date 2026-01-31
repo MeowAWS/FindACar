@@ -200,21 +200,62 @@ select.inputBoxes option {
     scrollbar-color: #99C8FF rgba(0, 0, 0, 0.05);
 }
 
+
+
 /* ============================= */
 /* Responsive */
 /* ============================= */
 @media (max-width: 768px) {
     #input {
-        flex-direction: column;
-        padding: 1.5rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1rem 1rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
     }
 
-    .searchButton {
+    .inputSet {
+        flex: 0 0 calc(50% - 0.5rem);
+        min-width: unset;
+    }
+
+    #searchDiv {
+        flex: 0 0 100%;
+        margin-top: 0rem;
+    }
+
+    label {
+        font-size: 0.7rem;
+        font-weight: 500;
+        margin-left: 0.2rem;
+        letter-spacing: 0.3px;
+    }
+
+    .customDropdown li {
+        height: 3rem;
+        padding: 0 1.2rem;
+        font-size: 0.7rem;
+    }
+
+    .inputBoxes,
+    select.inputBoxes {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.7rem;
         width: 100%;
     }
 
-    .customDropdown {
-        max-height: calc(3 * 3rem);
-        /* still 3 items */
-    }
+    .searchButton {
+    background: linear-gradient(135deg, #4cd018, #28a745);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.6rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    text-transform: uppercase;
+}
 }

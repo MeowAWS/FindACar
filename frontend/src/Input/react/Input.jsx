@@ -64,6 +64,7 @@ function Input({
                 selectedModel={selectedModel}  // current value
                 onModelChange={setSelectedModel} // setter function
             />
+
             <Range onRangeChange={setSelectedRange} />
 
             {/* Condition dropdown */}
