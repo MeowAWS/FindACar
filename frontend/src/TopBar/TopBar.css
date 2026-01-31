@@ -159,4 +159,14 @@
     #contactUs {
         font-size: 0.7rem;
     }
+
+    #topbar a {
+    margin-left: auto;
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.4rem 0rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    }
 }
