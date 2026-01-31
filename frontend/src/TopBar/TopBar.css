@@ -4,7 +4,6 @@
     top: 0;
     width: 100%;
     display: flex;
-    justify-content: space-between; /* logo left, contact right */
     align-items: center;
     padding: 0.8rem 2rem;
     backdrop-filter: blur(10px);
@@ -14,16 +13,48 @@
     box-sizing: border-box;
 }
 
-/* Logo / Title */
+/* CENTER logo + text */
+#logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Logo */
+#logo {
+    width: 4rem;
+    height: 2.5rem;
+    object-fit: contain;
+}
+
+/* Title */
 #findacar {
     margin: 0;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
     color: #ffffff;
 }
 
-/* Contact link */
+#contactUs {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+#contactUs:hover {
+    color: rgb(83, 215, 71);
+}
+
+
+/* Contact link stays right */
 #topbar a {
+    margin-left: auto;
     color: #ffffff;
     font-weight: 600;
     text-decoration: none;
@@ -32,33 +63,76 @@
     transition: all 0.2s ease;
 }
 
+/* Small screens */
+@media (max-width: 480px) {
+    #findacar {
+        font-size: 1.1rem;
+    }
 
-#logo-container {
+    #logo {
+        width: 3rem;
+        height: 1.5rem;
+    }
+}
+
+
+
+/* LEFT logo + phrase */
+#left-container {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* space between image and text */
+    gap: 0.5rem;
 }
 
-#logo {
-    width: 4rem;  /* adjust as needed */
-    height: 2rem; /* keep it square */
-    object-fit: contain; /* prevent distortion */
+
+#pakwheels {
+    width: 7rem;
+    height: 3rem;
+    object-fit: contain;
 }
 
-/* Responsive: stack on very small screens */
-@media (max-width: 480px) {
-    #topbar {
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
+
+#left-text {
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+}
+
+
+
+
+
+
+
+/* Crystal / shiny text effect */
+.crystal-text {
+    background: linear-gradient(45deg,
+            #c5ecd7,
+            /* soft green */
+            #c0c0c0,
+            /* silver */
+            #b6a0a0,
+            #d0d0d0);
+    background-size: 300% 300%;
+    /* make gradient bigger for smooth movement */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: crystalMove 3s linear infinite;
+}
+
+/* Animation for gradient movement */
+@keyframes crystalMove {
+    0% {
+        background-position: 0% 0%;
     }
 
-    #findacar {
-        font-size: 1rem;
+    50% {
+        background-position: 100% 100%;
     }
 
-    #topbar a {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.9rem;
+    100% {
+        background-position: 0% 0%;
     }
 }

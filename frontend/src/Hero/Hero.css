@@ -10,28 +10,34 @@
 }
 
 #description {
-    color:aliceblue;
-    font-size: 4rem;
-    text-align: center;
+  color: aliceblue;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 380;
+  font-size: 4rem;
+  text-align: center;
 }
 
 #textBelow {
-    margin: 1rem;
-    font-size: 2rem;
+  margin: 1rem;
+  font-size: 1.7rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+
 }
 
 #herodiv {
-    padding: 6rem;
-    padding-bottom: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  padding: 6rem;
+  padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#searchBar{
-    transition: opacity 2.5s ease, transform 2.3s ease;
+#searchBar {
+  transition: opacity 2.5s ease, transform 2.3s ease;
 }
+
 .hero-wrapper {
   overflow: hidden;
   transition: max-height 0.8s ease, opacity 0.6s ease;
@@ -41,4 +47,35 @@
 .hero-wrapper.hidden {
   max-height: 0;
   opacity: 0;
+}
+
+
+.crystal-meow {
+  background: linear-gradient(45deg,
+      #80d5a8,
+      /* green */
+      #4496a2,
+      /* light blue */
+      #d0f4ff);
+  /* pale cyan */
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: crystalMove 3s linear infinite;
+}
+
+
+/* Gradient animation keyframes */
+@keyframes crystalMove {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
 }

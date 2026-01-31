@@ -3,7 +3,7 @@ import "./Hero.css";
 
 function Hero({ searchButtonOn }) {
   const [showContent, setShowContent] = useState(false);
-  
+
   // Initialize from sessionStorage
   const [hasSearched, setHasSearched] = useState(() => {
     const saved = sessionStorage.getItem("hasSearched");
@@ -24,10 +24,17 @@ function Hero({ searchButtonOn }) {
   return (
     <div className={`hero-wrapper ${hasSearched ? "hidden" : ""}`}>
       <div id="herodiv" className={`fade-in ${showContent ? "visible" : ""}`}>
-        <h1 id="description">AI Based Car Rater</h1>
-        <h2 id="textBelow">Condition Analysis using a machine learning model</h2>
+        <h1 id="description" className="crystal-meow">AI Based Car Rater</h1>
+        <h2 id="textBelow" className="crystal-meow">
+          Condition Analysis using a machine learning model
+        </h2>
       </div>
+
+
     </div>
+
+
+
   );
 }
 
