@@ -98,4 +98,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  #herodiv {
+    padding: 3rem;
+    padding-bottom: 1rem;
+  }
 }
+
