@@ -6,6 +6,7 @@ import Displayer from './Cards/react/Displayer'
 import Input from "./Input/react/Input"
 import Hero from './Hero/Hero'
 import TopBar from "./TopBar/TopBar"
+import BottomBar from "./BottomBar/BottomBar"
 
 function App() {
 
@@ -73,7 +74,8 @@ function App() {
           searchPressed={searchPressed}
           turnSearchOff={turnSearchOff}
         />
-
+        
+        <BottomBar />
       </div>
     </>
   )
