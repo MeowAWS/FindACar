@@ -18,7 +18,7 @@ def home():
 
 @app.head("/")
 def home_head():
-    return {"message": "API head Running"}
+    return None
 
 
 @app.get("/update_db")
