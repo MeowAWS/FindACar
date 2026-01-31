@@ -16,6 +16,9 @@ app.add_middleware(
 def home():
     return {"message": "API is running"}
 
+@app.head("/")
+def home_head():
+    return {"message": "API head Running"}
 
 
 @app.get("/update_db")
