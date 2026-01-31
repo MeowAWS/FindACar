@@ -162,6 +162,15 @@
     .loading::after {
         font-size: 1rem;
     }
+
+    .no-results h3 {
+    margin: 0 0 0 0;
+    margin-top: 0rem;
+    font-size: 0.7rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin-bottom: var(--space-sm);
+}
 }
 
 @media (max-width: 480px) {
