@@ -1,7 +1,9 @@
 import subprocess
 
 # List the scripts in the order you want to run them
-scripts = ["gariHtmlExtractor.py", "reportExtractor.py", "imageExtractor.py"]
+# scripts = ["gariHtmlExtractor.py", "reportExtractor.py", "imageExtractor.py"]
+scripts = ["imageExtractor.py"]
+
 
 for script in scripts:
     print(f"\n=== RUNNING {script} ===\n")
