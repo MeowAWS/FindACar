@@ -5,7 +5,7 @@ An end-to-end AI-based system for **car condition analysis and grading**, combin
 🌐 **[Live Website](https://find-a-car-black.vercel.app)**
 
 DEMO VIDEO :
-https://github.com/user-attachments/assets/ba394904-c944-43d0-97cb-f9a222527d0b
+https://youtu.be/WlsCn355rtc?si=8QHSvOcMxKzlMu6l
 
 ---
 
